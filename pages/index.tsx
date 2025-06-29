@@ -92,7 +92,7 @@ export default function Home() {
           <div className="text-center space-y-6">
             {/* プロフィール画像 */}
             <div className="flex justify-center">
-              <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full flex items-center justify-center shadow-lg overflow-hidden">
+              <div className="size-48 rounded-full flex items-center justify-center shadow-lg overflow-hidden">
                 <Image
                   src="/icon_base.png"
                   alt="プロフィール画像"
