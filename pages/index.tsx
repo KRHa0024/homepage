@@ -1,5 +1,13 @@
-import React from 'react';
-import { ExternalLink, Twitter, ShoppingBag, Heart, RectangleGoggles } from 'lucide-react';
+import React from "react";
+import {
+  ExternalLink,
+  Twitter,
+  ShoppingBag,
+  Heart,
+  RectangleGoggles,
+  GithubIcon,
+} from "lucide-react";
+import Image from "next/image";
 
 interface LinkItem {
   title: string;
@@ -8,31 +16,71 @@ interface LinkItem {
   color: string;
 }
 
+interface WorkItem {
+  title: string;
+  image: string;
+  url?: string;
+}
+
 const links: LinkItem[] = [
   {
-    title: 'Twitter',
-    url: 'https://twitter.com/owo_KRHa',
+    title: "Twitter",
+    url: "https://twitter.com/owo_KRHa",
     icon: <Twitter className="w-6 h-6" />,
-    color: 'hover:bg-blue-50 hover:border-blue-400'
+    color: "hover:bg-pink-50 hover:border-pink-400",
   },
   {
-    title: 'VRChat',
-    url: 'https://vrchat.com/home/user/usr_6c5d6ee7-188e-4502-bf2e-a744d189081b',
+    title: "VRChat",
+    url: "https://vrchat.com/home/user/usr_6c5d6ee7-188e-4502-bf2e-a744d189081b",
     icon: <RectangleGoggles className="w-6 h-6" />,
-    color: 'hover:bg-blue-50 hover:border-blue-400'
+    color: "hover:bg-pink-50 hover:border-pink-400",
   },
   {
-    title: 'Booth',
-    url: 'https://krha.booth.pm/',
+    title: "Booth",
+    url: "https://krha.booth.pm/",
     icon: <ShoppingBag className="w-6 h-6" />,
-    color: 'hover:bg-blue-50 hover:border-blue-400'
+    color: "hover:bg-pink-50 hover:border-pink-400",
   },
   {
-    title: '欲しいものリスト',
-    url: 'https://www.amazon.jp/hz/wishlist/ls/3A46FRUNXAH2S?ref_=wl_share',
+    title: "ほしいも",
+    url: "https://www.amazon.jp/hz/wishlist/ls/3A46FRUNXAH2S?ref_=wl_share",
     icon: <Heart className="w-6 h-6" />,
-    color: 'hover:bg-red-50 hover:border-red-400'
-  }
+    color: "hover:bg-pink-50 hover:border-pink-400",
+  },
+  {
+    title: "GitHub",
+    url: "https://www.amazon.jp/hz/wishlist/ls/3A46FRUNXAH2S?ref_=wl_share",
+    icon: <GithubIcon className="w-6 h-6" />,
+    color: "hover:bg-pink-50 hover:border-pink-400",
+  },
+];
+
+const works: WorkItem[] = [
+  {
+    title: "VRChat用アバター衣装の製作・販売",
+    image: "/work5.png",
+    url: "https://krha.booth.pm/",
+  },
+  {
+    title: "VRChat内のワールド制作",
+    image: "/work1.gif",
+  },
+  {
+    title: "告知用動画製作(Cafe Royal Milk)",
+    image: "/work2.gif",
+  },
+  {
+    title: "VRChat用トグルメニュー生成ツール",
+    image: "/work4.gif",
+  },
+  {
+    title: "ゲームアセットの製作(般若心経.inc)",
+    image: "/work6.png",
+  },
+  {
+    title: "3DCGアニメーション",
+    image: "/work3.gif",
+  },
 ];
 
 export default function Home() {
@@ -44,20 +92,31 @@ export default function Home() {
           <div className="text-center space-y-6">
             {/* プロフィール画像 */}
             <div className="flex justify-center">
-              <div className="w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
-                <span className="text-white text-2xl sm:text-3xl font-bold">
-                  K
-                </span>
+              <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full flex items-center justify-center shadow-lg overflow-hidden">
+                <Image
+                  src="/icon_base.png"
+                  alt="プロフィール画像"
+                  width={128}
+                  height={128}
+                  className="w-full h-full object-cover rounded-full"
+                  priority
+                />
               </div>
             </div>
-            
-            {/* 名前 */}
-            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight m-plus-rounded">
-              くろは
-            </h1>
-            
+
+            <div>
+              {/* 名前 */}
+              <h1 className="text-3xl sm:text-4xl font-bold text-gray-700 leading-tight m-plus-rounded">
+                くろ～は
+              </h1>
+              {/* 読み方 */}
+              <p className="text-base sm:text-lg text-gray-700 leading-relaxed max-w-2xl mx-auto">
+                kuroha
+              </p>
+            </div>
+
             {/* ひとこと */}
-            <p className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg text-gray-500 leading-relaxed max-w-2xl mx-auto">
               ぶいちゃで暮らしてます
             </p>
           </div>
@@ -69,18 +128,40 @@ export default function Home() {
         <div className="max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           {/* セクションタイトル */}
           <div className="text-center">
-            <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 leading-tight m-plus-rounded">
+            <h2 className="text-2xl sm:text-3xl font-semibold text-gray-700 leading-tight m-plus-rounded">
               Links
             </h2>
-            <p className="text-sm sm:text-base text-gray-600 leading-relaxed mt-2">
-              各種SNSやサービスへのリンクをまとめています
+            <p className="text-sm sm:text-base text-gray-500 leading-relaxed mt-2">
+              各種SNSやサービスへのリンク集
             </p>
           </div>
-          
+
           {/* リンクカード */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             {links.map((link, index) => (
               <LinkCard key={index} {...link} />
+            ))}
+          </div>
+        </div>
+      </main>
+
+      {/* Workセクション */}
+      <main className="flex-1 pb-16">
+        <div className="max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+          {/* セクションタイトル */}
+          <div className="text-center">
+            <h2 className="text-2xl sm:text-3xl font-semibold text-gray-700 leading-tight m-plus-rounded">
+              Works
+            </h2>
+            <p className="text-sm sm:text-base text-gray-500 leading-relaxed mt-2">
+              今まで作ったものとか
+            </p>
+          </div>
+          
+          {/* Workカード */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+            {works.map((work, index) => (
+              <WorkCard key={index} {...work} />
             ))}
           </div>
         </div>
@@ -92,6 +173,8 @@ export default function Home() {
           <div className="text-center">
             <p className="text-sm text-gray-500">
               © {new Date().getFullYear()} KRHa. All rights reserved.
+              <br />
+              アイコン: かなめなか様
             </p>
           </div>
         </div>
@@ -102,11 +185,11 @@ export default function Home() {
 
 function LinkCard({ title, url, icon, color }: LinkItem) {
   const handleClick = () => {
-    window.open(url, '_blank', 'noopener,noreferrer');
+    window.open(url, "_blank", "noopener,noreferrer");
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter' || event.key === ' ') {
+    if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
       handleClick();
     }
@@ -117,7 +200,7 @@ function LinkCard({ title, url, icon, color }: LinkItem) {
       className={`
         bg-white border border-gray-300 rounded-2xl p-6 
         shadow-sm transition-all duration-200 ease-in-out
-        cursor-pointer focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2
+        cursor-pointer focus-within:ring-2 focus-within:ring-pink-500 focus-within:ring-offset-2
         hover:shadow-md ${color}
         group
       `}
@@ -130,24 +213,70 @@ function LinkCard({ title, url, icon, color }: LinkItem) {
       <div className="flex space-x-4 items-center">
         {/* アイコン */}
         <div className="flex-shrink-0 p-3 bg-gray-50 rounded-full transition-colors duration-150 ease-in-out group-hover:bg-white">
-          <div className="text-blue-700 transition-transform duration-150 ease-in-out group-hover:scale-105">
-            {React.cloneElement(icon as React.ReactElement, {
-              className: `w-6 h-6 ${
-                title === '欲しいものリスト' ? 'text-red-600' : 'text-blue-700'
-              }`
-            })}
+          <div className="text-pink-700 transition-transform duration-150 ease-in-out group-hover:scale-105">
+            {React.cloneElement(icon as React.ReactElement)}
           </div>
         </div>
 
         {/* コンテンツ */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold text-gray-900 leading-snug">
+            <h2 className="text-xl font-semibold text-gray-600 leading-snug">
               {title}
             </h2>
             <ExternalLink className="w-4 h-4 text-gray-500 flex-shrink-0 ml-2 transition-transform duration-150 ease-in-out group-hover:translate-x-1" />
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function WorkCard({ title, image, url }: WorkItem) {
+  const handleClick = () => {
+    if (url) {
+      window.open(url, "_blank", "noopener,noreferrer");
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (url && (event.key === "Enter" || event.key === " ")) {
+      event.preventDefault();
+      handleClick();
+    }
+  };
+
+  return (
+    <div
+      className={`
+        bg-white border border-gray-200 rounded-2xl overflow-hidden
+        shadow-sm transition-all duration-200 ease-in-out
+        hover:shadow-md hover:border-pink-300
+        ${url ? 'cursor-pointer' : ''}
+        group
+      `}
+      onClick={url ? handleClick : undefined}
+      onKeyDown={url ? handleKeyDown : undefined}
+      tabIndex={url ? 0 : undefined}
+      role={url ? "button" : undefined}
+      aria-label={url ? `${title}を開く` : undefined}
+    >
+      {/* 画像 */}
+      <div className="aspect-video bg-gray-100 overflow-hidden">
+        <Image
+          src={image}
+          alt={title}
+          width={400}
+          height={225}
+          className="w-full h-full object-cover transition-transform duration-200 ease-in-out group-hover:scale-105"
+        />
+      </div>
+      
+      {/* タイトル */}
+      <div className="flex p-4 justify-center">
+        <h2 className="text-base font-medium text-gray-700 leading-snug line-clamp-2">
+          {title}
+        </h2>
       </div>
     </div>
   );
