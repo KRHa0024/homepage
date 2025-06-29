@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import {
   ExternalLink,
   Twitter,
@@ -122,13 +123,13 @@ export default function Home() {
 
             {/* ギャラリーボタン */}
             <div className="pt-4">
-              <a
+              <Link
                 href="/galleries"
                 className="inline-flex items-center space-x-2 px-6 py-2 rounded-full bg-white border border-gray-300 text-gray-700 font-semibold shadow-sm hover:bg-pink-50 hover:border-pink-400 hover:text-pink-700 transition-all duration-200 focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
               >
                 <Camera className="w-6 h-6 text-pink-700" />
                 <span>Gallery</span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
