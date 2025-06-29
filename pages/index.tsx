@@ -52,7 +52,7 @@ export default function Home() {
             </div>
             
             {/* 名前 */}
-            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight">
+            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight m-plus-rounded">
               くろは
             </h1>
             
@@ -69,7 +69,7 @@ export default function Home() {
         <div className="max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           {/* セクションタイトル */}
           <div className="text-center">
-            <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 leading-tight">
+            <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 leading-tight m-plus-rounded">
               Links
             </h2>
             <p className="text-sm sm:text-base text-gray-600 leading-relaxed mt-2">
