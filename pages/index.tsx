@@ -13,7 +13,6 @@ interface LinkItem {
   title: string;
   url: string;
   icon: React.ReactNode;
-  color: string;
 }
 
 interface WorkItem {
@@ -27,31 +26,26 @@ const links: LinkItem[] = [
     title: "Twitter",
     url: "https://twitter.com/owo_KRHa",
     icon: <Twitter className="w-6 h-6" />,
-    color: "hover:bg-pink-50 hover:border-pink-400",
   },
   {
     title: "VRChat",
     url: "https://vrchat.com/home/user/usr_6c5d6ee7-188e-4502-bf2e-a744d189081b",
     icon: <RectangleGoggles className="w-6 h-6" />,
-    color: "hover:bg-pink-50 hover:border-pink-400",
   },
   {
     title: "Booth",
     url: "https://krha.booth.pm/",
     icon: <ShoppingBag className="w-6 h-6" />,
-    color: "hover:bg-pink-50 hover:border-pink-400",
   },
   {
     title: "ほしいも",
     url: "https://www.amazon.jp/hz/wishlist/ls/3A46FRUNXAH2S?ref_=wl_share",
     icon: <Heart className="w-6 h-6" />,
-    color: "hover:bg-pink-50 hover:border-pink-400",
   },
   {
     title: "GitHub",
     url: "https://www.amazon.jp/hz/wishlist/ls/3A46FRUNXAH2S?ref_=wl_share",
     icon: <GithubIcon className="w-6 h-6" />,
-    color: "hover:bg-pink-50 hover:border-pink-400",
   },
 ];
 
@@ -188,7 +182,7 @@ export default function Home() {
   );
 }
 
-function LinkCard({ title, url, icon, color }: LinkItem) {
+function LinkCard({ title, url, icon }: LinkItem) {
   const handleClick = () => {
     window.open(url, "_blank", "noopener,noreferrer");
   };
@@ -206,7 +200,7 @@ function LinkCard({ title, url, icon, color }: LinkItem) {
         bg-white border border-gray-300 rounded-2xl p-6 
         shadow-sm transition-all duration-200 ease-in-out
         cursor-pointer focus-within:ring-2 focus-within:ring-pink-500 focus-within:ring-offset-2
-        hover:shadow-md ${color}
+        hover:shadow-md hover:border-pink-400 hover:bg-pink-50
         group
       `}
       onClick={handleClick}
@@ -254,9 +248,10 @@ function WorkCard({ title, image, url }: WorkItem) {
   return (
     <div
       className={`
-        bg-white border border-gray-200 rounded-2xl overflow-hidden
+        bg-white border border-gray-200 rounded-4xl overflow-hidden
         shadow-sm transition-all duration-200 ease-in-out
-        hover:shadow-md hover:border-pink-300
+        focus-within:ring-2 focus-within:ring-pink-500 focus-within:ring-offset-2
+        hover:shadow-md hover:border-pink-400 hover:bg-pink-50
         ${url ? 'cursor-pointer' : ''}
         group
       `}
@@ -267,7 +262,7 @@ function WorkCard({ title, image, url }: WorkItem) {
       aria-label={url ? `${title}を開く` : undefined}
     >
       {/* 画像 */}
-      <div className="aspect-video bg-gray-100 overflow-hidden">
+      <div className="aspect-video bg-gray-100 overflow-hidden rounded-2xl mt-4 ml-4 mr-4">
         <Image
           src={image}
           alt={title}
