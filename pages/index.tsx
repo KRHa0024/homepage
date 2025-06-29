@@ -4,7 +4,6 @@ import { ExternalLink, Twitter, ShoppingBag, Heart, RectangleGoggles } from 'luc
 interface LinkItem {
   title: string;
   url: string;
-  description: string;
   icon: React.ReactNode;
   color: string;
 }
@@ -13,28 +12,24 @@ const links: LinkItem[] = [
   {
     title: 'Twitter',
     url: 'https://twitter.com/owo_KRHa',
-    description: '最新の情報や日常をつぶやいています',
     icon: <Twitter className="w-6 h-6" />,
     color: 'hover:bg-blue-50 hover:border-blue-400'
   },
   {
     title: 'VRChat',
     url: 'https://vrchat.com/home/user/usr_6c5d6ee7-188e-4502-bf2e-a744d189081b',
-    description: 'バーチャル世界で交流しましょう',
     icon: <RectangleGoggles className="w-6 h-6" />,
     color: 'hover:bg-blue-50 hover:border-blue-400'
   },
   {
     title: 'Booth',
     url: 'https://krha.booth.pm/',
-    description: '制作物やグッズを販売しています',
     icon: <ShoppingBag className="w-6 h-6" />,
     color: 'hover:bg-blue-50 hover:border-blue-400'
   },
   {
     title: '欲しいものリスト',
     url: 'https://www.amazon.jp/hz/wishlist/ls/3A46FRUNXAH2S?ref_=wl_share',
-    description: '応援していただける方はこちらから',
     icon: <Heart className="w-6 h-6" />,
     color: 'hover:bg-red-50 hover:border-red-400'
   }
@@ -42,24 +37,47 @@ const links: LinkItem[] = [
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white">
-      {/* ヘッダー */}
-      <header className="py-8 sm:py-12 lg:py-16">
+    <div className="min-h-screen bg-white flex flex-col">
+      {/* プロフィールセクション */}
+      <section className="py-8 sm:py-12 lg:py-16">
         <div className="max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-4">
-            <h1 className="text-4xl font-bold text-gray-900 leading-tight">
-              Link Collection
+          <div className="text-center space-y-6">
+            {/* プロフィール画像 */}
+            <div className="flex justify-center">
+              <div className="w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
+                <span className="text-white text-2xl sm:text-3xl font-bold">
+                  K
+                </span>
+              </div>
+            </div>
+            
+            {/* 名前 */}
+            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight">
+              くろは
             </h1>
-            <p className="text-base text-gray-600 leading-relaxed max-w-2xl mx-auto">
-              各種SNSやサービスへのリンクをまとめています。お気軽にフォローや訪問をお願いします。
+            
+            {/* ひとこと */}
+            <p className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
+              ぶいちゃで暮らしてます
             </p>
           </div>
         </div>
-      </header>
+      </section>
 
-      {/* メインコンテンツ */}
-      <main className="pb-16">
-        <div className="max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8">
+      {/* リンク集セクション */}
+      <main className="flex-1 pb-16">
+        <div className="max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+          {/* セクションタイトル */}
+          <div className="text-center">
+            <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 leading-tight">
+              Links
+            </h2>
+            <p className="text-sm sm:text-base text-gray-600 leading-relaxed mt-2">
+              各種SNSやサービスへのリンクをまとめています
+            </p>
+          </div>
+          
+          {/* リンクカード */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             {links.map((link, index) => (
               <LinkCard key={index} {...link} />
@@ -69,11 +87,11 @@ export default function Home() {
       </main>
 
       {/* フッター */}
-      <footer className="py-8 border-t border-gray-200">
+      <footer className="py-8 border-t border-gray-200 mt-auto">
         <div className="max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <p className="text-sm text-gray-500">
-              © 2025 KRHa. All rights reserved.
+              © {new Date().getFullYear()} KRHa. All rights reserved.
             </p>
           </div>
         </div>
@@ -82,7 +100,7 @@ export default function Home() {
   );
 }
 
-function LinkCard({ title, url, description, icon, color }: LinkItem) {
+function LinkCard({ title, url, icon, color }: LinkItem) {
   const handleClick = () => {
     window.open(url, '_blank', 'noopener,noreferrer');
   };
@@ -107,9 +125,9 @@ function LinkCard({ title, url, description, icon, color }: LinkItem) {
       onKeyDown={handleKeyDown}
       tabIndex={0}
       role="button"
-      aria-label={`${title}に移動 - ${description}`}
+      aria-label={`${title}に移動`}
     >
-      <div className="flex items-start space-x-4">
+      <div className="flex space-x-4 items-center">
         {/* アイコン */}
         <div className="flex-shrink-0 p-3 bg-gray-50 rounded-full transition-colors duration-150 ease-in-out group-hover:bg-white">
           <div className="text-blue-700 transition-transform duration-150 ease-in-out group-hover:scale-105">
@@ -129,9 +147,6 @@ function LinkCard({ title, url, description, icon, color }: LinkItem) {
             </h2>
             <ExternalLink className="w-4 h-4 text-gray-500 flex-shrink-0 ml-2 transition-transform duration-150 ease-in-out group-hover:translate-x-1" />
           </div>
-          <p className="text-sm text-gray-600 leading-relaxed mt-2">
-            {description}
-          </p>
         </div>
       </div>
     </div>
