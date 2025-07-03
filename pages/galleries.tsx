@@ -102,7 +102,7 @@ export default function Galleries({ images }: { images: string[] }) {
           <div className="max-w-3xl w-full flex flex-col items-center relative">
             {imgLoading && (
               <div className="absolute inset-0 flex items-center justify-center z-10">
-                <div className="w-16 h-16 border-4 border-pink-400 border-t-transparent rounded-full animate-spin bg-opacity-0" />
+                <div className="loader" />
               </div>
             )}
             <Image
