@@ -46,7 +46,7 @@ const links: LinkItem[] = [
   },
   {
     title: "GitHub",
-    url: "https://www.amazon.jp/hz/wishlist/ls/3A46FRUNXAH2S?ref_=wl_share",
+    url: "https://github.com/KRHa0024",
     icon: <GithubIcon className="w-6 h-6" />,
   },
 ];
