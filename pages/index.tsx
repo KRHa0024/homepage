@@ -63,14 +63,14 @@ const works: WorkItem[] = [
     url: "https://vrchat.com/home/user/usr_6c5d6ee7-188e-4502-bf2e-a744d189081b",
   },
   {
-    title: "告知用動画製作(Cafe Royal Milk)",
+    title: "動画製作(Cafe Royal Milk)",
     image: "/work2.gif",
     url: "https://x.com/Mil_Crysta/status/1733048782445576630?s=20",
   },
   {
-    title: "VRChat用トグルメニュー生成ツール",
-    image: "/work4.gif",
-    url: "https://github.com/KRHa0024/ToggleMenuGenerator",
+    title: "VRChat向けUnity拡張機能の製作(NewAssetsViewer)",
+    image: "/work4.png",
+    url: "https://github.com/KRHa0024/NewAssetsViewer",
   },
   {
     title: "ゲームアセットの製作(般若心経.inc)",
