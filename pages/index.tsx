@@ -68,7 +68,7 @@ const works: WorkItem[] = [
     url: "https://x.com/Mil_Crysta/status/1733048782445576630?s=20",
   },
   {
-    title: "VRChat向けUnity拡張機能の製作(NewAssetsViewer)",
+    title: "VRChat向けUnity拡張機能の製作",
     image: "/work4.png",
     url: "https://github.com/KRHa0024/NewAssetsViewer",
   },

@@ -84,14 +84,16 @@ export default function Galleries({ images }: { images: string[] }) {
           onClick={closePreview}
         >
           <button
-            className="absolute top-6 right-8 text-white text-3xl font-bold bg-black/40 rounded-full px-3 py-1 hover:bg-pink-500 transition-colors"
+            className="z-60 absolute top-6 right-8 text-white text-3xl font-bold bg-black/40 rounded-full px-3 py-1 hover:bg-pink-500 transition-colors"
+            style={{ zIndex: 60 }}
             onClick={closePreview}
             aria-label="閉じる"
           >
             ×
           </button>
           <button
-            className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center text-white bg-black/40 rounded-full p-2 hover:bg-pink-500 transition-colors"
+            className="z-60 absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center text-white bg-black/40 rounded-full p-2 hover:bg-pink-500 transition-colors"
+            style={{ zIndex: 60 }}
             onClick={prevImage}
             aria-label="前の画像"
           >
@@ -114,7 +116,8 @@ export default function Galleries({ images }: { images: string[] }) {
             />
           </div>
           <button
-            className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center justify-center text-white bg-black/40 rounded-full p-2 hover:bg-pink-500 transition-colors"
+            className="z-60 absolute right-4 top-1/2 -translate-y-1/2 flex items-center justify-center text-white bg-black/40 rounded-full p-2 hover:bg-pink-500 transition-colors"
+            style={{ zIndex: 60 }}
             onClick={nextImage}
             aria-label="次の画像"
           >
