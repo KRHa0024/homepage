@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import fs from "fs";
-import path from "path";
+// import fs from "fs";
+// import path from "path";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
@@ -55,7 +55,7 @@ export default function Galleries({ images }: { images: string[] }) {
             <p className="text-center text-gray-500">画像がありません</p>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-              {images.map((img, idx) => (
+              {images.map((id, idx) => (
                 <button
                   key={idx}
                   className={`aspect-square bg-gray-100 rounded-2xl overflow-hidden shadow-sm transition-all duration-200 ease-in-out focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 hover:shadow-md hover:border-pink-400 hover:bg-pink-50 border border-gray-200 group w-full flex items-center justify-center`}
@@ -65,7 +65,7 @@ export default function Galleries({ images }: { images: string[] }) {
                   aria-label={`画像${idx + 1}を拡大表示`}
                 >
                   <Image
-                    src={img}
+                    src={getThumbUrl(id)}
                     alt={`gallery-${idx}`}
                     width={400}
                     height={400}
@@ -106,7 +106,7 @@ export default function Galleries({ images }: { images: string[] }) {
               </div>
             )}
             <Image
-              src={images[previewIdx]}
+              src={getPreviewUrl(images[previewIdx])}
               alt={`gallery-preview-${previewIdx}`}
               width={1920}
               height={1080}
@@ -129,23 +129,64 @@ export default function Galleries({ images }: { images: string[] }) {
   );
 }
 
+const twitterImageIds = [
+  "Gu9gNv3XEAAa9SL",
+  "Guy12GGWYAAADu6",
+  "GuZMGMBaEAA3jRg",
+  "GuJ2rnlbQAAHiWH",
+  "Gt1hRaEXMAAy5bl",
+  "Gt1Z6aLXkAAWp8X",
+  "Gtl_T5va0AAvYHa",
+  "GtQxrZJbMAAuywT",
+  "Gs841WJakAArJxu",
+  "GstJ3KgagAAiqzR",
+  "GsdoIF-bgAAOnKK",
+  "GsJFnB1aUAE2w_E",
+  "Gr5reFEWcAAgleb",
+  "GrlXCX1XcAAIctQ",
+  "GrVaVVybAAEm8iS",
+  "GrA_5SkasAAKAD1",
+  "Gq2rQEsXYAEyDnI",
+  "Gqc4gzIWwAAKDwa",
+  "GqSWginbAAQvVbo",
+  "Gp4elX_awAE0JYR",
+  "GpzxdjhaYAAGt7c",
+  "GpUwgOobYAEQZoF",
+  "GpALA3vbMAAFGcy",
+  "Gow1tgIaAAAq29I",
+  "Gowq0mgacAACs5O",
+  "GohH1XLW4AAYOEN",
+  "GoM3FuNaoAALfwR",
+  "Gn9QCaebwAE0ujV",
+  "Gnop3tuacAATIJ7",
+  "GnjVaPoaMAUeZoi",
+  "Gm_YUd1boAAx8hQ",
+  "Gm1CHoabEAAhhX8",
+  "GmgVIuwaEAMzOI8",
+  "GmLwj3QboAEbson",
+  "Gl3SwgsbYAAruIp",
+  "GlnxnSUbIAA2GUr",
+  "GlTNz0wa4AUNKKa",
+  "GkqBcpNWkAA98fB",
+  "GkkwJTCXsAA7Xxm",
+  "GkAozsgaAAQYK7s",
+  "GkADS94akAEnl6b",
+  "Gi4_KUXa4AIzOqq",
+  "Giz1304bkAAshEK",
+  "Giz9nD-boAA9Ajj",
+  "GiUtMOzaYAAM5xP",
+  "GiPkMrjaQAAOBQY",
+  "GiAB9imaAAA1lcZ",
+  "GhR8kgwbAAA0Ljp",
+  "GhMkGwBbIAAlfcG",
+  "Gg39SryaMAALybs",
+];
+
+// サムネイル用URL生成（small）
+const getThumbUrl = (id: string) => `https://pbs.twimg.com/media/${id}?format=jpg&name=small`;
+// プレビュー用URL生成（4096x4096）
+const getPreviewUrl = (id: string) => `https://pbs.twimg.com/media/${id}?format=jpg&name=4096x4096`;
+
 export async function getStaticProps() {
-  const galleryDir = path.join(process.cwd(), "public", "galleries");
-  let images: string[] = [];
-  try {
-    // ファイル名と更新日時を取得
-    const files = fs.readdirSync(galleryDir)
-      .filter((file) => /\.(png|jpe?g|gif|webp)$/i.test(file))
-      .map((file) => {
-        const filePath = path.join(galleryDir, file);
-        const stat = fs.statSync(filePath);
-        return { file, mtime: stat.mtime.getTime() };
-      });
-    // 更新日時が新しい順にソート
-    files.sort((a, b) => b.mtime - a.mtime);
-    images = files.map(({ file }) => `/galleries/${file}`);
-  } catch {
-    images = [];
-  }
-  return { props: { images } };
+  return { props: { images: twitterImageIds } };
 }
