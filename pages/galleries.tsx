@@ -130,6 +130,8 @@ export default function Galleries({ images }: { images: string[] }) {
 }
 
 const twitterImageIds = [
+  "GvcG2PiakAADngf",
+  "GvR5POeWUAAxH0O",
   "Gu9gNv3XEAAa9SL",
   "Guy12GGWYAAADu6",
   "GuZMGMBaEAA3jRg",
@@ -190,3 +192,4 @@ const getPreviewUrl = (id: string) => `https://pbs.twimg.com/media/${id}?format=
 export async function getStaticProps() {
   return { props: { images: twitterImageIds } };
 }
+ 
