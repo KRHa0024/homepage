@@ -192,4 +192,3 @@ const getPreviewUrl = (id: string) => `https://pbs.twimg.com/media/${id}?format=
 export async function getStaticProps() {
   return { props: { images: twitterImageIds } };
 }
- 
