@@ -58,29 +58,49 @@ const works: WorkItem[] = [
     url: "https://krha.booth.pm/",
   },
   {
+    title: "みるしゅがふぇすっ！Day2 フライヤー・ロゴ",
+    image: "/work8.png",
+    url: "https://x.com/Mil_Crysta/status/1946857622197653609",
+  },
+  {
     title: "VRChat内のワールド制作",
     image: "/work1.gif",
     url: "https://vrchat.com/home/user/usr_6c5d6ee7-188e-4502-bf2e-a744d189081b",
   },
   {
-    title: "動画製作(Cafe Royal Milk)",
+    title: "Cafe Royal Milk告知動画",
     image: "/work2.gif",
     url: "https://x.com/Mil_Crysta/status/1733048782445576630?s=20",
   },
   {
-    title: "VRChat向けUnity拡張機能の製作",
-    image: "/work4.png",
-    url: "https://github.com/KRHa0024/NewAssetsViewer",
-  },
-  {
-    title: "ゲームアセットの製作(般若心経.inc)",
-    image: "/work6.png",
-    url: "https://youtu.be/tdNqsA_HLEs?si=rWEvx2aaSwGuatp8",
+    title: "オーバーライド パロディ動画",
+    image: "/work7.gif",
+    url: "https://x.com/owo_KRHa/status/1767369926858478069",
   },
   {
     title: "3DCGアニメーション",
     image: "/work3.gif",
     url: "https://youtu.be/S-MUI8WSaUw",
+  },
+  {
+    title: "VRChat向けUnity拡張機能",
+    image: "/work4.png",
+    url: "https://github.com/KRHa0024/NewAssetsViewer",
+  },
+  {
+    title: "ここのウェブサイト",
+    image: "/work9.png",
+    url: "https://krha.jp/",
+  },
+  {
+    title: "IndiHome meme",
+    image: "/work10.gif",
+    url: "https://x.com/owo_KRHa/status/1887191388183535818",
+  },
+  {
+    title: "ゲームアセット(般若心経.inc)",
+    image: "/work6.png",
+    url: "https://youtu.be/tdNqsA_HLEs?si=rWEvx2aaSwGuatp8",
   },
 ];
 
