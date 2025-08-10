@@ -8,6 +8,7 @@ import {
   RectangleGoggles,
   GithubIcon,
   Camera,
+  BotMessageSquare
 } from "lucide-react";
 import Image from "next/image";
 
@@ -33,6 +34,11 @@ const links: LinkItem[] = [
     title: "VRChat",
     url: "https://vrchat.com/home/user/usr_6c5d6ee7-188e-4502-bf2e-a744d189081b",
     icon: <RectangleGoggles className="w-6 h-6" />,
+  },
+  {
+    title: "Discord",
+    url: "https://discord.com/users/366295277239533569",
+    icon: <BotMessageSquare className="w-6 h-6" />,
   },
   {
     title: "Booth",
