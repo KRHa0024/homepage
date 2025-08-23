@@ -130,6 +130,11 @@ export default function Galleries({ images }: { images: string[] }) {
 }
 
 const twitterImageIds = [
+  "GyQiNvya4AMVE5y",
+  "GyVRJcRa4AQCDNx",
+  "GyqOKaebsAAy_Ts",
+  "Gy0oF9vaMAAtA9R",
+  "Gy5d0v0boAE7Cfz",
   "GxxaQylbkAAqINR",
   "GxiPTbkb0AAfKuq",
   "GxNZLXkbMAA33D7",
