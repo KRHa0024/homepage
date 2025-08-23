@@ -50,7 +50,9 @@ export default function Galleries({ images }: { images: string[] }) {
               <span>← ホームに戻る</span>
             </Link>
           </div>
-          <h1 className="text-3xl font-bold text-gray-700 mb-8 text-center m-plus-rounded">Gallery</h1>
+          <h1 className="text-3xl font-bold text-gray-700 mb-8 text-center m-plus-rounded">
+            Gallery
+          </h1>
           {images.length === 0 ? (
             <p className="text-center text-gray-500">画像がありません</p>
           ) : (
@@ -59,7 +61,7 @@ export default function Galleries({ images }: { images: string[] }) {
                 <button
                   key={idx}
                   className={`aspect-square bg-gray-100 rounded-2xl overflow-hidden shadow-sm transition-all duration-200 ease-in-out focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 hover:shadow-md hover:border-pink-400 hover:bg-pink-50 border border-gray-200 group w-full flex items-center justify-center`}
-                  style={{ outline: 'none' }}
+                  style={{ outline: "none" }}
                   onClick={() => openPreview(idx)}
                   tabIndex={0}
                   aria-label={`画像${idx + 1}を拡大表示`}
@@ -80,7 +82,9 @@ export default function Galleries({ images }: { images: string[] }) {
       {/* プレビュー用モーダル */}
       {previewIdx !== null && (
         <div
-          className={`fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm transition-opacity duration-300 ${modalVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+          className={`fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm transition-opacity duration-300 ${
+            modalVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}
           onClick={closePreview}
         >
           <button
@@ -110,7 +114,9 @@ export default function Galleries({ images }: { images: string[] }) {
               alt={`gallery-preview-${previewIdx}`}
               width={1920}
               height={1080}
-              className={`object-contain w-screen h-screen max-w-full max-h-[90vh] transition-opacity duration-300 ${imgLoading ? 'opacity-0' : 'opacity-100'}`}
+              className={`object-contain w-screen h-screen max-w-full max-h-[90vh] transition-opacity duration-300 ${
+                imgLoading ? "opacity-0" : "opacity-100"
+              }`}
               priority
               onLoadingComplete={() => setImgLoading(false)}
             />
@@ -130,13 +136,13 @@ export default function Galleries({ images }: { images: string[] }) {
 }
 
 const twitterImageIds = [
-  "GyQiNvya4AMVE5y",
-  "GyVRJcRa4AQCDNx",
-  "GyqOKaebsAAy_Ts",
-  "Gy0oF9vaMAAtA9R",
-  "Gy5d0v0boAE7Cfz",
-  "GxxaQylbkAAqINR",
   "GxiPTbkb0AAfKuq",
+  "GxxaQylbkAAqINR",
+  "Gy5d0v0boAE7Cfz",
+  "Gy0oF9vaMAAtA9R",
+  "GyqOKaebsAAy_Ts",
+  "GyVRJcRa4AQCDNx",
+  "GyQiNvya4AMVE5y",
   "GxNZLXkbMAA33D7",
   "GxIVaN2aIAAcil0",
   "GwpZ9kLWEAEyPay",
@@ -198,9 +204,11 @@ const twitterImageIds = [
 ];
 
 // サムネイル用URL生成（small）
-const getThumbUrl = (id: string) => `https://pbs.twimg.com/media/${id}?format=jpg&name=small`;
+const getThumbUrl = (id: string) =>
+  `https://pbs.twimg.com/media/${id}?format=jpg&name=small`;
 // プレビュー用URL生成（4096x4096）
-const getPreviewUrl = (id: string) => `https://pbs.twimg.com/media/${id}?format=jpg&name=4096x4096`;
+const getPreviewUrl = (id: string) =>
+  `https://pbs.twimg.com/media/${id}?format=jpg&name=4096x4096`;
 
 export async function getStaticProps() {
   return { props: { images: twitterImageIds } };
