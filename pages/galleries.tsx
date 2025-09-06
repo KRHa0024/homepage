@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-// import fs from "fs";
-// import path from "path";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, X } from "lucide-react";
 
 export default function Galleries({ images }: { images: string[] }) {
   const [previewIdx, setPreviewIdx] = useState<number | null>(null);
@@ -79,7 +77,6 @@ export default function Galleries({ images }: { images: string[] }) {
           )}
         </div>
       </main>
-      {/* プレビュー用モーダル */}
       {previewIdx !== null && (
         <div
           className={`fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm transition-opacity duration-300 ${
@@ -88,12 +85,12 @@ export default function Galleries({ images }: { images: string[] }) {
           onClick={closePreview}
         >
           <button
-            className="z-60 absolute top-6 right-8 text-white text-3xl font-bold bg-black/40 rounded-full px-3 py-1 hover:bg-pink-500 transition-colors"
+            className="z-60 absolute top-6 right-8 text-white text-3xl font-bold bg-black/40 rounded-full p-2 hover:bg-pink-500 transition-colors"
             style={{ zIndex: 60 }}
             onClick={closePreview}
             aria-label="閉じる"
           >
-            ×
+            <X className="w-8 h-8" />
           </button>
           <button
             className="z-60 absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center text-white bg-black/40 rounded-full p-2 hover:bg-pink-500 transition-colors"
