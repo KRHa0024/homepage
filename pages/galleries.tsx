@@ -136,14 +136,17 @@ export default function Galleries({ images }: { images: string[] }) {
 }
 
 const twitterImageIds = [
-  "GxiPTbkb0AAfKuq",
-  "GxxaQylbkAAqINR",
+  "GzdibT6bkAAYZLi",
+  "Gz3k58TbMAASb8o",
+  "G0CDi40bQAAMVOT",
+  "GzORGNIbcAA6_Ex",
   "Gy5d0v0boAE7Cfz",
   "Gy0oF9vaMAAtA9R",
   "GyqOKaebsAAy_Ts",
   "GyVRJcRa4AQCDNx",
   "GyQiNvya4AMVE5y",
-  "GxNZLXkbMAA33D7",
+  "GxxaQylbkAAqINR",
+  "GxiPTbkb0AAfKuq",
   "GxIVaN2aIAAcil0",
   "GwpZ9kLWEAEyPay",
   "GwfIe5pbEAIExPJ",
