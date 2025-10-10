@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, X } from "lucide-react";
+import { twitterImageIds } from "../lib/twitterImages";
 
 export default function Galleries({ images }: { images: string[] }) {
   const [previewIdx, setPreviewIdx] = useState<number | null>(null);
@@ -132,76 +133,6 @@ export default function Galleries({ images }: { images: string[] }) {
   );
 }
 
-const twitterImageIds = [
-  "G0CDi40bQAAMVOT",
-  "Gz3k58TbMAASb8o",
-  "GzdibT6bkAAYZLi",
-  "GzORGNIbcAA6_Ex",
-  "Gy5d0v0boAE7Cfz",
-  "Gy0oF9vaMAAtA9R",
-  "GyqOKaebsAAy_Ts",
-  "GyVRJcRa4AQCDNx",
-  "GyQiNvya4AMVE5y",
-  "GxxaQylbkAAqINR",
-  "GxiPTbkb0AAfKuq",
-  "GxIVaN2aIAAcil0",
-  "GwpZ9kLWEAEyPay",
-  "GwfIe5pbEAIExPJ",
-  "GwFuPSbWIAAzh0M",
-  "Gv1ysImW8AERef3",
-  "GvcG2PiakAADngf",
-  "GvR5POeWUAAxH0O",
-  "Gu9gNv3XEAAa9SL",
-  "Guy12GGWYAAADu6",
-  "GuZMGMBaEAA3jRg",
-  "GuJ2rnlbQAAHiWH",
-  "Gt1hRaEXMAAy5bl",
-  "Gt1Z6aLXkAAWp8X",
-  "Gtl_T5va0AAvYHa",
-  "GtQxrZJbMAAuywT",
-  "Gs841WJakAArJxu",
-  "GstJ3KgagAAiqzR",
-  "GsdoIF-bgAAOnKK",
-  "GsJFnB1aUAE2w_E",
-  "Gr5reFEWcAAgleb",
-  "GrlXCX1XcAAIctQ",
-  "GrVaVVybAAEm8iS",
-  "GrA_5SkasAAKAD1",
-  "Gq2rQEsXYAEyDnI",
-  "Gqc4gzIWwAAKDwa",
-  "GqSWginbAAQvVbo",
-  "Gp4elX_awAE0JYR",
-  "GpzxdjhaYAAGt7c",
-  "GpUwgOobYAEQZoF",
-  "GpALA3vbMAAFGcy",
-  "Gow1tgIaAAAq29I",
-  "Gowq0mgacAACs5O",
-  "GohH1XLW4AAYOEN",
-  "GoM3FuNaoAALfwR",
-  "Gn9QCaebwAE0ujV",
-  "Gnop3tuacAATIJ7",
-  "GnjVaPoaMAUeZoi",
-  "Gm_YUd1boAAx8hQ",
-  "Gm1CHoabEAAhhX8",
-  "GmgVIuwaEAMzOI8",
-  "GmLwj3QboAEbson",
-  "Gl3SwgsbYAAruIp",
-  "GlnxnSUbIAA2GUr",
-  "GlTNz0wa4AUNKKa",
-  "GkqBcpNWkAA98fB",
-  "GkkwJTCXsAA7Xxm",
-  "GkAozsgaAAQYK7s",
-  "GkADS94akAEnl6b",
-  "Gi4_KUXa4AIzOqq",
-  "Giz1304bkAAshEK",
-  "Giz9nD-boAA9Ajj",
-  "GiUtMOzaYAAM5xP",
-  "GiPkMrjaQAAOBQY",
-  "GiAB9imaAAA1lcZ",
-  "GhR8kgwbAAA0Ljp",
-  "GhMkGwBbIAAlfcG",
-  "Gg39SryaMAALybs",
-];
 
 // サムネイル用URL生成（small）
 const getThumbUrl = (id: string) =>
