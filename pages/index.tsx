@@ -144,7 +144,7 @@ export default function Home() {
 
             {/* ひとこと */}
             <p className="text-base sm:text-lg text-gray-500 leading-relaxed max-w-2xl mx-auto">
-              ぶいちゃで暮らしてます
+              ぶいちゃで暮らしてます<br />インフラエンジニアもやってます
             </p>
 
             {/* ギャラリーボタン */}
