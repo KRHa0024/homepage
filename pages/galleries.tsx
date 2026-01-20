@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, X } from "lucide-react";
@@ -8,12 +8,14 @@ export default function Galleries({ images }: { images: string[] }) {
   const [previewIdx, setPreviewIdx] = useState<number | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [imgLoading, setImgLoading] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   // プレビューを開く
   const openPreview = (idx: number) => {
     setPreviewIdx(idx);
     setModalVisible(true);
     setImgLoading(true);
+    setImgError(false);
   };
   // プレビューを閉じる
   const closePreview = () => {
@@ -21,21 +23,45 @@ export default function Galleries({ images }: { images: string[] }) {
     setTimeout(() => setPreviewIdx(null), 250); // アニメーション後に非表示
   };
   // 前の画像
-  const prevImage = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const prevImage = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
     if (previewIdx !== null) {
       setImgLoading(true);
+      setImgError(false);
       setPreviewIdx((previewIdx + images.length - 1) % images.length);
     }
   };
   // 次の画像
-  const nextImage = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const nextImage = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
     if (previewIdx !== null) {
       setImgLoading(true);
+      setImgError(false);
       setPreviewIdx((previewIdx + 1) % images.length);
     }
   };
+
+  // キーボードナビゲーション
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (previewIdx === null) return;
+
+      switch (e.key) {
+        case "Escape":
+          closePreview();
+          break;
+        case "ArrowLeft":
+          prevImage();
+          break;
+        case "ArrowRight":
+          nextImage();
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [previewIdx]);
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
@@ -102,22 +128,37 @@ export default function Galleries({ images }: { images: string[] }) {
             <ArrowLeft className="w-8 h-8" />
           </button>
           <div className="max-w-3xl w-full flex flex-col items-center relative">
-            {imgLoading && (
+            {imgLoading && !imgError && (
               <div className="absolute inset-0 flex items-center justify-center z-10">
                 <div className="loader" />
               </div>
             )}
-            <Image
-              src={getPreviewUrl(images[previewIdx])}
-              alt={`gallery-preview-${previewIdx}`}
-              width={1920}
-              height={1080}
-              className={`object-contain w-screen h-screen max-w-full max-h-[90vh] transition-opacity duration-300 ${
-                imgLoading ? "opacity-0" : "opacity-100"
-              }`}
-              priority
-              onLoadingComplete={() => setImgLoading(false)}
-            />
+            {imgError ? (
+              <div className="flex items-center justify-center min-h-[50vh]">
+                <p className="text-white text-center text-lg">
+                  画像を読み込めませんでした
+                </p>
+              </div>
+            ) : (
+              <Image
+                src={getPreviewUrl(images[previewIdx])}
+                alt={`gallery-preview-${previewIdx}`}
+                width={1920}
+                height={1080}
+                className={`object-contain w-screen h-screen max-w-full max-h-[90vh] transition-opacity duration-300 ${
+                  imgLoading ? "opacity-0" : "opacity-100"
+                }`}
+                priority
+                onLoadingComplete={() => {
+                  setImgLoading(false);
+                  setImgError(false);
+                }}
+                onError={() => {
+                  setImgLoading(false);
+                  setImgError(true);
+                }}
+              />
+            )}
           </div>
           <button
             className="z-60 absolute right-4 top-1/2 -translate-y-1/2 flex items-center justify-center text-white bg-black/40 rounded-full p-2 hover:bg-pink-500 transition-colors"
