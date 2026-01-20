@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, X } from "lucide-react";
 import { twitterImageIds } from "../lib/twitterImages";
+import { ThemeToggle } from "../components/ThemeToggle";
 
 export default function Galleries({ images }: { images: string[] }) {
   const [previewIdx, setPreviewIdx] = useState<number | null>(null);
@@ -64,28 +65,29 @@ export default function Galleries({ images }: { images: string[] }) {
   }, [previewIdx]);
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col">
+      <ThemeToggle />
       <main className="flex-1 py-12">
         <div className="max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8">
             <Link
               href="/"
-              className="inline-flex items-center space-x-2 px-6 py-2 rounded-full bg-white border border-gray-300 text-gray-700 font-semibold shadow-sm hover:bg-pink-50 hover:border-pink-400 hover:text-pink-700 transition-all duration-200 focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
+              className="inline-flex items-center space-x-2 px-6 py-2 rounded-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 font-semibold shadow-sm hover:bg-pink-50 dark:hover:bg-pink-900/30 hover:border-pink-400 hover:text-pink-700 dark:hover:text-pink-300 transition-all duration-200 focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
             >
               <span>← ホームに戻る</span>
             </Link>
           </div>
-          <h1 className="text-3xl font-bold text-gray-700 mb-8 text-center m-plus-rounded">
+          <h1 className="text-3xl font-bold text-gray-700 dark:text-gray-200 mb-8 text-center m-plus-rounded">
             Gallery
           </h1>
           {images.length === 0 ? (
-            <p className="text-center text-gray-500">画像がありません</p>
+            <p className="text-center text-gray-500 dark:text-gray-400">画像がありません</p>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
               {images.map((id, idx) => (
                 <button
                   key={idx}
-                  className={`aspect-square bg-gray-100 rounded-2xl overflow-hidden shadow-sm transition-all duration-200 ease-in-out focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 hover:shadow-md hover:border-pink-400 hover:bg-pink-50 border border-gray-200 group w-full flex items-center justify-center`}
+                  className={`aspect-square bg-gray-100 dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm transition-all duration-200 ease-in-out focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 hover:shadow-md hover:border-pink-400 hover:bg-pink-50 dark:hover:bg-pink-900/30 border border-gray-200 dark:border-gray-700 group w-full flex items-center justify-center`}
                   style={{ outline: "none" }}
                   onClick={() => openPreview(idx)}
                   tabIndex={0}

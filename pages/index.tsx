@@ -11,6 +11,7 @@ import {
   BotMessageSquare
 } from "lucide-react";
 import Image from "next/image";
+import { ThemeToggle } from "../components/ThemeToggle";
 
 interface LinkItem {
   title: string;
@@ -112,7 +113,8 @@ const works: WorkItem[] = [
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col">
+      <ThemeToggle />
       {/* プロフィールセクション */}
       <section className="py-8 sm:py-12 lg:py-16">
         <div className="max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8">
@@ -133,17 +135,17 @@ export default function Home() {
 
             <div>
               {/* 名前 */}
-              <h1 className="text-3xl sm:text-4xl font-bold text-gray-700 leading-tight m-plus-rounded">
+              <h1 className="text-3xl sm:text-4xl font-bold text-gray-700 dark:text-gray-200 leading-tight m-plus-rounded">
                 くろ～は
               </h1>
               {/* 読み方 */}
-              <p className="text-base sm:text-lg text-gray-700 leading-relaxed max-w-2xl mx-auto">
+              <p className="text-base sm:text-lg text-gray-700 dark:text-gray-200 leading-relaxed max-w-2xl mx-auto">
                 kuroha
               </p>
             </div>
 
             {/* ひとこと */}
-            <p className="text-base sm:text-lg text-gray-500 leading-relaxed max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg text-gray-500 dark:text-gray-400 leading-relaxed max-w-2xl mx-auto">
               ぶいちゃで暮らしてます<br />インフラエンジニアもやってます
             </p>
 
@@ -151,7 +153,7 @@ export default function Home() {
             <div className="pt-4">
               <Link
                 href="/galleries"
-                className="inline-flex items-center space-x-2 px-6 py-2 rounded-full bg-white border border-gray-300 text-gray-700 font-semibold shadow-sm hover:bg-pink-50 hover:border-pink-400 hover:text-pink-700 transition-all duration-200 focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
+                className="inline-flex items-center space-x-2 px-6 py-2 rounded-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 font-semibold shadow-sm hover:bg-pink-50 dark:hover:bg-pink-900/30 hover:border-pink-400 hover:text-pink-700 dark:hover:text-pink-300 transition-all duration-200 focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
               >
                 <Camera className="w-6 h-6 text-pink-700" />
                 <span>Gallery</span>
@@ -166,10 +168,10 @@ export default function Home() {
         <div className="max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           {/* セクションタイトル */}
           <div className="text-center">
-            <h2 className="text-2xl sm:text-3xl font-semibold text-gray-700 leading-tight m-plus-rounded">
+            <h2 className="text-2xl sm:text-3xl font-semibold text-gray-700 dark:text-gray-200 leading-tight m-plus-rounded">
               Links
             </h2>
-            <p className="text-sm sm:text-base text-gray-500 leading-relaxed mt-2">
+            <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 leading-relaxed mt-2">
               各種SNSやサービスへのリンク集
             </p>
           </div>
@@ -188,10 +190,10 @@ export default function Home() {
         <div className="max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           {/* セクションタイトル */}
           <div className="text-center">
-            <h2 className="text-2xl sm:text-3xl font-semibold text-gray-700 leading-tight m-plus-rounded">
+            <h2 className="text-2xl sm:text-3xl font-semibold text-gray-700 dark:text-gray-200 leading-tight m-plus-rounded">
               Works
             </h2>
-            <p className="text-sm sm:text-base text-gray-500 leading-relaxed mt-2">
+            <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 leading-relaxed mt-2">
               今まで作ったものとか
             </p>
           </div>
@@ -206,10 +208,10 @@ export default function Home() {
       </main>
 
       {/* フッター */}
-      <footer className="py-8 border-t border-gray-200 mt-auto">
+      <footer className="py-8 border-t border-gray-200 dark:border-gray-700 mt-auto">
         <div className="max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               © {new Date().getFullYear()} KRHa. All rights reserved.
               <br />
               アイコン: かなめなか様
@@ -236,10 +238,10 @@ function LinkCard({ title, url, icon }: LinkItem) {
   return (
     <div
       className={`
-        bg-white border border-gray-300 rounded-2xl p-6 
+        bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-2xl p-6
         shadow-sm transition-all duration-200 ease-in-out
-        cursor-pointer focus-within:ring-2 focus-within:ring-pink-500 focus-within:ring-offset-2
-        hover:shadow-md hover:border-pink-400 hover:bg-pink-50
+        cursor-pointer focus-within:ring-2 focus-within:ring-pink-500 focus-within:ring-offset-2 dark:focus-within:ring-offset-gray-900
+        hover:shadow-md hover:border-pink-400 hover:bg-pink-50 dark:hover:bg-pink-900/30
         group
       `}
       onClick={handleClick}
@@ -250,7 +252,7 @@ function LinkCard({ title, url, icon }: LinkItem) {
     >
       <div className="flex space-x-4 items-center">
         {/* アイコン */}
-        <div className="flex-shrink-0 p-3 bg-gray-50 rounded-full transition-colors duration-150 ease-in-out group-hover:bg-white">
+        <div className="flex-shrink-0 p-3 bg-gray-50 dark:bg-gray-700 rounded-full transition-colors duration-150 ease-in-out group-hover:bg-white dark:group-hover:bg-gray-600">
           <div className="text-pink-700 transition-transform duration-150 ease-in-out group-hover:scale-105">
             {React.cloneElement(icon as React.ReactElement)}
           </div>
@@ -259,10 +261,10 @@ function LinkCard({ title, url, icon }: LinkItem) {
         {/* コンテンツ */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold text-gray-600 leading-snug">
+            <h2 className="text-xl font-semibold text-gray-600 dark:text-gray-300 leading-snug">
               {title}
             </h2>
-            <ExternalLink className="w-4 h-4 text-gray-500 flex-shrink-0 ml-2 transition-transform duration-150 ease-in-out group-hover:translate-x-1" />
+            <ExternalLink className="w-4 h-4 text-gray-500 dark:text-gray-400 flex-shrink-0 ml-2 transition-transform duration-150 ease-in-out group-hover:translate-x-1" />
           </div>
         </div>
       </div>
@@ -287,10 +289,10 @@ function WorkCard({ title, image, url }: WorkItem) {
   return (
     <div
       className={`
-        bg-white border border-gray-200 rounded-4xl overflow-hidden
+        bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-4xl overflow-hidden
         shadow-sm transition-all duration-200 ease-in-out
-        focus-within:ring-2 focus-within:ring-pink-500 focus-within:ring-offset-2
-        hover:shadow-md hover:border-pink-400 hover:bg-pink-50
+        focus-within:ring-2 focus-within:ring-pink-500 focus-within:ring-offset-2 dark:focus-within:ring-offset-gray-900
+        hover:shadow-md hover:border-pink-400 hover:bg-pink-50 dark:hover:bg-pink-900/30
         ${url ? 'cursor-pointer' : ''}
         group
       `}
@@ -301,7 +303,7 @@ function WorkCard({ title, image, url }: WorkItem) {
       aria-label={url ? `${title}を開く` : undefined}
     >
       {/* 画像 */}
-      <div className="aspect-video bg-gray-100 overflow-hidden rounded-2xl mt-4 ml-4 mr-4">
+      <div className="aspect-video bg-gray-100 dark:bg-gray-700 overflow-hidden rounded-2xl mt-4 ml-4 mr-4">
         <Image
           src={image}
           alt={title}
@@ -310,10 +312,10 @@ function WorkCard({ title, image, url }: WorkItem) {
           className="w-full h-full object-cover transition-transform duration-200 ease-in-out group-hover:scale-105"
         />
       </div>
-      
+
       {/* タイトル */}
       <div className="flex p-4 justify-center">
-        <h2 className="text-base font-medium text-gray-700 leading-snug line-clamp-2">
+        <h2 className="text-base font-medium text-gray-700 dark:text-gray-200 leading-snug line-clamp-2">
           {title}
         </h2>
       </div>
