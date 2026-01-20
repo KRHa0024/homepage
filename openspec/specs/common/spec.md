@@ -30,6 +30,10 @@
 - 本文: Noto Sans JP（ウェイト: 300, 400, 500, 600, 700）
 - 見出し: M PLUS Rounded 1c（ウェイト: 900）
 
+フォント最適化設定:
+- `display: 'swap'`（FOUT許容、パフォーマンス優先）
+- `subsets: ['latin']`（サブセット読み込み）
+
 M PLUS Rounded 1cは`.m-plus-rounded`クラスで適用する。
 
 #### Scenario: Body text font
@@ -86,3 +90,99 @@ CSS変数で定義:
 #### Scenario: Loader animation
 - **WHEN** ローディング状態が表示される
 - **THEN** ピンク色の4点が回転するアニメーションが表示される
+
+### Requirement: Dark Mode Support
+アプリケーションはダークモードをサポートしなければならない（SHALL）。※将来対応予定
+
+テーマ設定:
+- ライトテーマ（デフォルト）:
+  - 背景: `#ffffff`
+  - テキスト: `#171717`
+  - アクセント: `pink-500`
+- ダークテーマ:
+  - 背景: `#0a0a0a`
+  - テキスト: `#ededed`
+  - アクセント: `pink-400`
+
+切り替え方式:
+- `prefers-color-scheme: dark`メディアクエリで自動切り替え
+
+#### Scenario: Light theme display
+- **WHEN** ユーザーのシステム設定がライトモードの場合
+- **THEN** ライトテーマの色が適用される
+
+#### Scenario: Dark theme display (将来対応)
+- **WHEN** ユーザーのシステム設定がダークモードの場合
+- **THEN** ダークテーマの色が適用される
+
+### Requirement: Responsive Breakpoints
+アプリケーションは統一されたブレークポイントを使用しなければならない（SHALL）。
+
+ブレークポイント定義:
+- `sm`: 640px（小型タブレット）
+- `md`: 768px（タブレット/デスクトップ）
+
+各ページのグリッドカラム数:
+- ホームページ: 1カラム（～md）→ 2カラム（md～）
+- ギャラリー: 2カラム（～sm）→ 3カラム（sm～md）→ 4カラム（md～）
+
+#### Scenario: Breakpoint consistency
+- **WHEN** 同じ画面幅で複数のページを表示する
+- **THEN** 全てのページで一貫したブレークポイントが適用される
+
+### Requirement: Unified Keyboard Navigation
+アプリケーションは統一されたキーボードナビゲーションを提供しなければならない（SHALL）。
+
+キーボード操作:
+- `Tab`: フォーカス移動（順方向）
+- `Shift + Tab`: フォーカス移動（逆方向）
+- `Enter` / `Space`: インタラクティブ要素の起動
+- `Escape`: モーダルを閉じる
+
+#### Scenario: Tab navigation
+- **WHEN** ユーザーがTabキーを押す
+- **THEN** フォーカスが次のインタラクティブ要素に移動する
+
+#### Scenario: Activate element with Enter
+- **WHEN** ユーザーがインタラクティブ要素にフォーカスしてEnterキーを押す
+- **THEN** その要素が起動される（クリックと同等の動作）
+
+#### Scenario: Activate element with Space
+- **WHEN** ユーザーがボタン要素にフォーカスしてSpaceキーを押す
+- **THEN** そのボタンが起動される
+
+#### Scenario: Close modal with Escape
+- **WHEN** モーダルが表示されている状態でユーザーがEscapeキーを押す
+- **THEN** モーダルが閉じる
+
+### Requirement: Error Handling
+アプリケーションは適切なエラーハンドリングを実装しなければならない（SHALL）。
+
+エラー処理:
+- 画像読み込み失敗時: プレースホルダー表示またはエラーメッセージ
+- タイムアウト時: 再試行オプションまたはエラー表示
+
+#### Scenario: Image loading failure
+- **WHEN** 画像の読み込みに失敗した場合
+- **THEN** エラー状態が適切に表示される
+- **AND** ユーザーに状況が伝わる
+
+#### Scenario: Network timeout
+- **WHEN** ネットワークタイムアウトが発生した場合
+- **THEN** エラー状態が表示される
+
+### Requirement: WCAG Compliance
+アプリケーションはWCAGアクセシビリティ基準に準拠しなければならない（SHALL）。
+
+準拠項目:
+- カラーコントラスト: 4.5:1以上（WCAG AA基準）
+- フォーカスインジケータ: 視覚的に明確なフォーカスリング
+- 代替テキスト: 全ての意味のある画像に`alt`属性を設定
+
+#### Scenario: Color contrast compliance
+- **WHEN** テキストと背景が表示される
+- **THEN** コントラスト比が4.5:1以上を満たす
+
+#### Scenario: Focus indicator visibility
+- **WHEN** ユーザーがキーボードで要素にフォーカスする
+- **THEN** 視覚的に明確なフォーカスリングが表示される

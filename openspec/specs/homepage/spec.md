@@ -59,6 +59,17 @@ Worksセクションには制作物のカードを含み、各カードは:
 - タイトル
 - 外部リンク（オプション）
 
+グリッドレイアウト:
+- モバイル（～768px）: 1カラム
+- タブレット/デスクトップ（768px～）: 2カラム
+- gap: `1.5rem`（24px）
+
+対応画像形式:
+- JPG/JPEG
+- PNG
+- GIF（アニメーション対応）
+- WebP
+
 #### Scenario: Work cards display correctly
 - **WHEN** ユーザーがホームページにアクセスする
 - **THEN** 制作物カードがグリッドレイアウトで表示される
@@ -71,6 +82,10 @@ Worksセクションには制作物のカードを含み、各カードは:
 #### Scenario: Work card without link
 - **WHEN** URLを持たないWorkカードが表示される
 - **THEN** カードはクリック不可となる
+
+#### Scenario: GIF image display
+- **WHEN** WorkカードにGIF画像が設定されている場合
+- **THEN** アニメーションが再生されて表示される
 
 ### Requirement: Footer
 ホームページはフッターを表示しなければならない（SHALL）。
@@ -101,15 +116,48 @@ Worksセクションには制作物のカードを含み、各カードは:
 ### Requirement: Hover Effects
 カードにはホバーエフェクトを適用しなければならない（SHALL）。
 
-- ボーダーがピンク色に変化
-- 背景がピンク系に変化
-- シャドウが強調される
-- 画像が微妙にズーム
+LinkCard:
+- ボーダー: `border-gray-200` → `border-pink-400`
+- 背景: `transparent` → `pink-50`
+- シャドウ: `shadow-sm` → `shadow-md`
+
+WorkCard:
+- ボーダー: `border-gray-200` → `border-pink-400`
+- 画像: `scale(1)` → `scale(1.05)`（0.3秒トランジション）
+- シャドウ: `shadow-lg` → `shadow-xl`
 
 #### Scenario: Link card hover effect
 - **WHEN** ユーザーがリンクカードにホバーする
-- **THEN** ボーダーがピンク色になり、背景がピンク系に変化する
+- **THEN** ボーダーが`pink-400`になり、背景が`pink-50`に変化する
 
 #### Scenario: Work card hover effect
 - **WHEN** ユーザーがWorkカードにホバーする
-- **THEN** 画像が微妙にズームし、シャドウが強調される
+- **THEN** 画像が1.05倍にズームし、シャドウが強調される
+
+### Requirement: Homepage Accessibility
+ホームページはアクセシビリティに配慮しなければならない（SHALL）。
+
+aria-label設定:
+- LinkCard: `aria-label="${title}に移動"`
+- WorkCard: `aria-label="${title}を開く"`（URLがある場合）
+
+フォーカスリング:
+- 色: `pink-500`
+- スタイル: `ring-2 ring-offset-2`
+
+#### Scenario: Link card accessibility
+- **WHEN** ユーザーがキーボードでリンクカードにフォーカスする
+- **THEN** ピンク色のフォーカスリングが表示される
+- **AND** スクリーンリーダーが「${title}に移動」と読み上げる
+
+#### Scenario: Work card accessibility
+- **WHEN** ユーザーがキーボードでWorkカードにフォーカスする
+- **THEN** ピンク色のフォーカスリングが表示される
+
+#### Scenario: Keyboard activation with Space
+- **WHEN** ユーザーがカードにフォーカスしてSpaceキーを押す
+- **THEN** カードが起動される（クリックと同等の動作）
+
+#### Scenario: Keyboard activation with Enter
+- **WHEN** ユーザーがカードにフォーカスしてEnterキーを押す
+- **THEN** カードが起動される（クリックと同等の動作）
