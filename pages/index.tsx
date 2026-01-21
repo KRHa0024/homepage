@@ -64,6 +64,16 @@ const works: WorkItem[] = [
     url: "https://krha.booth.pm/",
   },
   {
+    title: "Cafe Royal Milk フライヤー・新ロゴ",
+    image: "/work12.png",
+    url: "https://x.com/Mil_Crysta/status/2001578190947651964?s=20",
+  },
+  {
+    title: "MilCrysta 3期生募集用ショート動画",
+    image: "/work11.gif",
+    url: "https://x.com/Mil_Crysta/status/1994692816614850845?s=20",
+  },
+  {
     title: "みるしゅがふぇすっ！Day2 フライヤー・ロゴ",
     image: "/work8.png",
     url: "https://x.com/Mil_Crysta/status/1946857622197653609",
