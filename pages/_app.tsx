@@ -2,6 +2,8 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { Noto_Sans_JP, M_PLUS_Rounded_1c } from 'next/font/google';
 import Head from "next/head";
+import { ThemeProvider } from "@/contexts/ThemeContext";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const notoSansJP = Noto_Sans_JP({
   weight: ['300', '400', '500', '600', '700'],
@@ -17,7 +19,7 @@ const mPlusRounded = M_PLUS_Rounded_1c({
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <ThemeProvider>
       <Head>
         <title>くろはにほへと</title>
         <meta name="description" content="ホームページ" />
@@ -34,8 +36,9 @@ export default function App({ Component, pageProps }: AppProps) {
         }
       `}</style>
       <div className={notoSansJP.className}>
+        <ThemeToggle />
         <Component {...pageProps} />
       </div>
-    </>
+    </ThemeProvider>
   );
 }

@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, X } from "lucide-react";
 import { twitterImageIds } from "../lib/twitterImages";
-import { ThemeToggle } from "../components/ThemeToggle";
 
 export default function Galleries({ images }: { images: string[] }) {
   const [previewIdx, setPreviewIdx] = useState<number | null>(null);
@@ -66,7 +65,6 @@ export default function Galleries({ images }: { images: string[] }) {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col">
-      <ThemeToggle />
       <main className="flex-1 py-12">
         <div className="max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8">

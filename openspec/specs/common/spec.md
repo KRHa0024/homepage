@@ -92,28 +92,81 @@ CSS変数で定義:
 - **THEN** ピンク色の4点が回転するアニメーションが表示される
 
 ### Requirement: Dark Mode Support
-アプリケーションはダークモードをサポートしなければならない（SHALL）。※将来対応予定
+アプリケーションはダークモードをサポートしなければならない（SHALL）。
 
 テーマ設定:
-- ライトテーマ（デフォルト）:
+- ライトテーマ:
   - 背景: `#ffffff`
   - テキスト: `#171717`
   - アクセント: `pink-500`
 - ダークテーマ:
-  - 背景: `#0a0a0a`
+  - 背景: `#111827`（gray-900）
   - テキスト: `#ededed`
   - アクセント: `pink-400`
 
-切り替え方式:
-- `prefers-color-scheme: dark`メディアクエリで自動切り替え
+切り替えモード（3種類）:
+- `system`: システム設定に従う（`prefers-color-scheme`メディアクエリ）
+- `light`: 常にライトテーマ
+- `dark`: 常にダークテーマ
+
+状態管理:
+- Context API（ThemeContext）でアプリ全体のテーマ状態を管理
+- `localStorage`にユーザー設定を保存（キー: `theme`）
+- ページ遷移時も状態を維持
+
+フラッシュ防止:
+- `_document.tsx`でHTML/bodyに初期背景色をインラインスタイルで設定
+- 同期スクリプトでDOM読み込み時に即座にテーマクラスを適用
+- マウント完了前はThemeToggleボタンを透明にして表示
 
 #### Scenario: Light theme display
-- **WHEN** ユーザーのシステム設定がライトモードの場合
+- **WHEN** ユーザーがライトモードを選択している場合
 - **THEN** ライトテーマの色が適用される
 
-#### Scenario: Dark theme display (将来対応)
-- **WHEN** ユーザーのシステム設定がダークモードの場合
+#### Scenario: Dark theme display
+- **WHEN** ユーザーがダークモードを選択している場合
 - **THEN** ダークテーマの色が適用される
+
+#### Scenario: System theme detection
+- **WHEN** ユーザーがシステム設定モードを選択している場合
+- **THEN** OSのダークモード設定に応じたテーマが適用される
+
+#### Scenario: Theme persistence
+- **WHEN** ユーザーがテーマを切り替えてページをリロードする
+- **THEN** 選択したテーマが維持される
+
+#### Scenario: Page transition without flash
+- **WHEN** ダークモード中にページ遷移する
+- **THEN** 白いフラッシュなしでページが表示される
+
+### Requirement: Theme Toggle
+アプリケーションはテーマ切り替えボタンを提供しなければならない（SHALL）。
+
+ボタン仕様:
+- 位置: 画面右上固定（`fixed top-4 right-4`）
+- スタイル: 丸型ボタン（`rounded-full`）
+- アイコン: 現在のモードに応じて変化
+  - `system`: モニターアイコン（Monitor）
+  - `light`: 太陽アイコン（Sun）
+  - `dark`: 月アイコン（Moon）
+
+動作:
+- クリックでモードを循環（system → light → dark → system）
+- ホバー時にピンク色のハイライト
+
+#### Scenario: Theme toggle click
+- **WHEN** ユーザーがテーマ切り替えボタンをクリックする
+- **THEN** テーマが次のモードに切り替わる
+- **AND** アイコンが新しいモードに応じて変化する
+
+#### Scenario: Theme toggle icon display
+- **WHEN** 現在のモードがsystemの場合
+- **THEN** モニターアイコンが表示される
+
+#### Scenario: Theme toggle accessibility
+- **WHEN** ユーザーがテーマ切り替えボタンにフォーカスする
+- **THEN** フォーカスリングが表示される
+- **AND** aria-labelに現在のモード名が含まれる
 
 ### Requirement: Responsive Breakpoints
 アプリケーションは統一されたブレークポイントを使用しなければならない（SHALL）。

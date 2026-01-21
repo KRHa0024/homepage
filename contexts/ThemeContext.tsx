@@ -1,10 +1,20 @@
-import { useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 export type ThemePreference = 'system' | 'light' | 'dark';
 
-export function useTheme() {
-  const [theme, setThemeState] = useState<ThemePreference>('system');
+interface ThemeContextType {
+  theme: ThemePreference;
+  setTheme: (theme: ThemePreference) => void;
+  mounted: boolean;
+}
 
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+
+export function ThemeProvider({ children }: { children: ReactNode }) {
+  const [theme, setThemeState] = useState<ThemePreference>('system');
+  const [mounted, setMounted] = useState(false);
+
+  // 初回マウント時にlocalStorageから読み込み
   useEffect(() => {
     const stored = localStorage.getItem('theme') as ThemePreference | null;
     if (stored === 'dark' || stored === 'light') {
@@ -12,8 +22,10 @@ export function useTheme() {
     } else {
       setThemeState('system');
     }
+    setMounted(true);
   }, []);
 
+  // テーマ変更時にDOMとlocalStorageを更新
   useEffect(() => {
     const applyTheme = () => {
       const root = document.documentElement;
@@ -29,6 +41,11 @@ export function useTheme() {
 
       root.classList.remove('light', 'dark');
       root.classList.add(resolved);
+
+      // 背景色も同期
+      const bg = resolved === 'dark' ? '#111827' : '#ffffff';
+      root.style.backgroundColor = bg;
+      document.body.style.backgroundColor = bg;
     };
 
     applyTheme();
@@ -50,5 +67,17 @@ export function useTheme() {
     }
   };
 
-  return { theme, setTheme };
+  return (
+    <ThemeContext.Provider value={{ theme, setTheme, mounted }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+}
+
+export function useTheme() {
+  const context = useContext(ThemeContext);
+  if (context === undefined) {
+    throw new Error('useTheme must be used within a ThemeProvider');
+  }
+  return context;
 }

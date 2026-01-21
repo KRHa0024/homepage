@@ -11,7 +11,6 @@ import {
   BotMessageSquare
 } from "lucide-react";
 import Image from "next/image";
-import { ThemeToggle } from "../components/ThemeToggle";
 
 interface LinkItem {
   title: string;
@@ -114,7 +113,6 @@ const works: WorkItem[] = [
 export default function Home() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col">
-      <ThemeToggle />
       {/* プロフィールセクション */}
       <section className="py-8 sm:py-12 lg:py-16">
         <div className="max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8">

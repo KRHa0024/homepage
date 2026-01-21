@@ -27,9 +27,14 @@
 ### Directory Structure
 ```
 pages/           # ページコンポーネント
-  _app.tsx       # アプリ共通設定
+  _app.tsx       # アプリ共通設定（ThemeProvider、ThemeToggle配置）
+  _document.tsx  # HTMLドキュメント設定（テーマ初期化スクリプト）
   index.tsx      # ホームページ
   galleries.tsx  # ギャラリーページ
+components/      # 共通コンポーネント
+  ThemeToggle.tsx # テーマ切り替えボタン
+contexts/        # React Context
+  ThemeContext.tsx # テーマ状態管理（useThemeフック含む）
 lib/             # データ・ユーティリティ
   twitterImages.ts
 styles/          # グローバルスタイル
@@ -53,7 +58,8 @@ public/          # 静的アセット
 
 ## Important Constraints
 - 画像は`pbs.twimg.com`からのみ外部読み込み許可
-- ダークモードはCSS変数で定義されているが、現在UIはライトモード固定
+- ダークモードはContext APIで状態管理し、手動切り替えとシステム設定連動の両方に対応
+- ページ遷移時のテーマフラッシュ防止のため、_document.tsxで同期的にテーマを適用
 
 ## External Dependencies
 - Twitter/X画像CDN: `pbs.twimg.com/media/`

@@ -84,9 +84,10 @@
 - サイズ: `w-10 h-10`（40px）
 - トランジション: 300ms
 
-キーボードナビゲーション（将来対応）:
+キーボードナビゲーション:
 - `←` 左矢印キー: 前の画像へ
 - `→` 右矢印キー: 次の画像へ
+- `Escape`: モーダルを閉じる
 
 #### Scenario: Navigate to previous image
 - **WHEN** ユーザーが左矢印ボタンをクリックする
@@ -98,9 +99,13 @@
 - **THEN** 次の画像が表示される
 - **AND** 最後の画像の場合は最初の画像に循環する
 
-#### Scenario: Navigate with arrow keys (将来対応)
-- **WHEN** モーダル表示中にユーザーが左右矢印キーを押す
-- **THEN** 対応する方向の画像に移動する
+#### Scenario: Navigate with left arrow key
+- **WHEN** モーダル表示中にユーザーが左矢印キーを押す
+- **THEN** 前の画像に移動する
+
+#### Scenario: Navigate with right arrow key
+- **WHEN** モーダル表示中にユーザーが右矢印キーを押す
+- **THEN** 次の画像に移動する
 
 ### Requirement: Loading State
 画像ロード中はローディングインジケータを表示しなければならない（SHALL）。
