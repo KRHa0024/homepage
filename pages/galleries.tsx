@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, X } from "lucide-react";
-import { twitterImageIds } from "../lib/twitterImages";
 
 // Azure Blob Storage Base URL
 const BLOB_BASE_URL = process.env.NEXT_PUBLIC_BLOB_BASE_URL || "";
@@ -15,11 +14,66 @@ const getImageUrl = (index: number, total: number) => {
   return `${BLOB_BASE_URL}${fileNumber}.jpeg`;
 };
 
-export default function Galleries({ images }: { images: string[] }) {
+export default function Galleries() {
+  const [totalImages, setTotalImages] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
   const [previewIdx, setPreviewIdx] = useState<number | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [imgLoading, setImgLoading] = useState(false);
   const [imgError, setImgError] = useState(false);
+
+  // Blob Storageから画像リストを取得して総数をカウント
+  useEffect(() => {
+    const fetchImageCount = async () => {
+      if (!BLOB_BASE_URL) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const urlObj = new URL(BLOB_BASE_URL);
+        const pathParts = urlObj.pathname.split("/").filter(Boolean);
+        
+        // パスの形式: /<container>/<prefix>/...
+        // 例: /media/twitter_images/twitter_images/
+        // container: media
+        // prefix: twitter_images/twitter_images/
+        if (pathParts.length < 1) throw new Error("Invalid Blob URL format");
+
+        const containerName = pathParts[0];
+        const prefix = pathParts.slice(1).join("/");
+        
+        // List Blob API URLの構築
+        // https://<account>.blob.core.windows.net/<container>?restype=container&comp=list&prefix=<prefix>
+        const listUrl = `${urlObj.origin}/${containerName}?restype=container&comp=list&prefix=${prefix}`;
+
+        const response = await fetch(listUrl);
+        if (!response.ok) throw new Error("Failed to fetch blob list");
+
+        const text = await response.text();
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(text, "text/xml");
+        
+        const blobs = xmlDoc.getElementsByTagName("Blob");
+        let jpegCount = 0;
+
+        for (let i = 0; i < blobs.length; i++) {
+          const name = blobs[i].getElementsByTagName("Name")[0]?.textContent || "";
+          if (name.toLowerCase().endsWith(".jpeg") || name.toLowerCase().endsWith(".jpg")) {
+            jpegCount++;
+          }
+        }
+
+        setTotalImages(jpegCount);
+      } catch (error) {
+        console.error("Error fetching images:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchImageCount();
+  }, []);
 
   // プレビューを開く
   const openPreview = (idx: number) => {
@@ -36,19 +90,19 @@ export default function Galleries({ images }: { images: string[] }) {
   // 前の画像
   const prevImage = (e?: React.MouseEvent) => {
     e?.stopPropagation();
-    if (previewIdx !== null) {
+    if (previewIdx !== null && totalImages !== null) {
       setImgLoading(true);
       setImgError(false);
-      setPreviewIdx((previewIdx + images.length - 1) % images.length);
+      setPreviewIdx((previewIdx + totalImages - 1) % totalImages);
     }
   };
   // 次の画像
   const nextImage = (e?: React.MouseEvent) => {
     e?.stopPropagation();
-    if (previewIdx !== null) {
+    if (previewIdx !== null && totalImages !== null) {
       setImgLoading(true);
       setImgError(false);
-      setPreviewIdx((previewIdx + 1) % images.length);
+      setPreviewIdx((previewIdx + 1) % totalImages);
     }
   };
 
@@ -72,7 +126,7 @@ export default function Galleries({ images }: { images: string[] }) {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [previewIdx]);
+  }, [previewIdx, totalImages]); // totalImagesも依存配列に追加
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col">
@@ -89,11 +143,16 @@ export default function Galleries({ images }: { images: string[] }) {
           <h1 className="text-3xl font-bold text-gray-700 dark:text-gray-200 mb-8 text-center m-plus-rounded">
             Gallery
           </h1>
-          {images.length === 0 ? (
+          
+          {loading ? (
+             <div className="flex justify-center items-center h-64">
+               <div className="loader" />
+             </div>
+          ) : !totalImages || totalImages === 0 ? (
             <p className="text-center text-gray-500 dark:text-gray-400">画像がありません</p>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-              {images.map((_, idx) => (
+              {Array.from({ length: totalImages }).map((_, idx) => (
                 <button
                   key={idx}
                   className={`aspect-square bg-gray-100 dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm transition-all duration-200 ease-in-out focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 hover:shadow-md hover:border-pink-400 hover:bg-pink-50 dark:hover:bg-pink-900/30 border border-gray-200 dark:border-gray-700 group w-full flex items-center justify-center`}
@@ -103,7 +162,7 @@ export default function Galleries({ images }: { images: string[] }) {
                   aria-label={`画像${idx + 1}を拡大表示`}
                 >
                   <Image
-                    src={getImageUrl(idx, images.length)}
+                    src={getImageUrl(idx, totalImages)}
                     alt={`gallery-${idx}`}
                     width={400}
                     height={400}
@@ -115,7 +174,7 @@ export default function Galleries({ images }: { images: string[] }) {
           )}
         </div>
       </main>
-      {previewIdx !== null && (
+      {previewIdx !== null && totalImages !== null && (
         <div
           className={`fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm transition-opacity duration-300 ${
             modalVisible ? "opacity-100" : "opacity-0 pointer-events-none"
@@ -152,7 +211,7 @@ export default function Galleries({ images }: { images: string[] }) {
               </div>
             ) : (
               <Image
-                src={getImageUrl(previewIdx, images.length)}
+                src={getImageUrl(previewIdx, totalImages)}
                 alt={`gallery-preview-${previewIdx}`}
                 width={1920}
                 height={1080}
@@ -185,6 +244,3 @@ export default function Galleries({ images }: { images: string[] }) {
   );
 }
 
-export async function getStaticProps() {
-  return { props: { images: twitterImageIds } };
-}
