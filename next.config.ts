@@ -14,6 +14,7 @@ const nextConfig: NextConfig = {
   },
 };
 
+// 環境変数からホスト名を抽出して動的に追加
 if (process.env.NEXT_PUBLIC_BLOB_BASE_URL) {
   try {
     const hostname = new URL(process.env.NEXT_PUBLIC_BLOB_BASE_URL).hostname;
@@ -21,7 +22,7 @@ if (process.env.NEXT_PUBLIC_BLOB_BASE_URL) {
       protocol: 'https',
       hostname: hostname,
       port: '',
-      pathname: '/**',
+      pathname: '/media/**',
     });
   } catch (e) {
     console.error("Invalid NEXT_PUBLIC_BLOB_BASE_URL", e);

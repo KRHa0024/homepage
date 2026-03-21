@@ -14,6 +14,23 @@ const getImageUrl = (index: number, total: number) => {
   return `${BLOB_BASE_URL}${fileNumber}.jpeg`;
 };
 
+// サムネイルURL生成ロジック
+// twitter_images を twitter_images_thumb に置換
+const getThumbUrl = (index: number, total: number) => {
+  const fileNumber = total - index;
+  // 文字列全体から "/twitter_images/" を探し、最後に現れるものを "/twitter_images_thumb/" に置換
+  // ユーザーの例: .../media/twitter_images/twitter_images/ -> .../media/twitter_images/twitter_images_thumb/
+  const lastIndex = BLOB_BASE_URL.lastIndexOf("/twitter_images/");
+  if (lastIndex === -1) return `${BLOB_BASE_URL}${fileNumber}.jpeg`;
+
+  const thumbBaseUrl = 
+    BLOB_BASE_URL.substring(0, lastIndex) + 
+    "/twitter_images_thumb/" + 
+    BLOB_BASE_URL.substring(lastIndex + "/twitter_images/".length);
+    
+  return `${thumbBaseUrl}${fileNumber}.jpeg`;
+};
+
 export default function Galleries() {
   const [totalImages, setTotalImages] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
@@ -41,7 +58,8 @@ export default function Galleries() {
         if (pathParts.length < 1) throw new Error("Invalid Blob URL format");
 
         const containerName = pathParts[0];
-        const prefix = pathParts.slice(1).join("/");
+        // プレフィックスの末尾に / を付けることで、ディレクトリを正確に絞り込む（前方一致による他フォルダの混入を防ぐ）
+        const prefix = pathParts.slice(1).join("/") + "/";
         
         // List Blob API URLの構築
         // https://<account>.blob.core.windows.net/<container>?restype=container&comp=list&prefix=<prefix>
@@ -162,7 +180,7 @@ export default function Galleries() {
                   aria-label={`画像${idx + 1}を拡大表示`}
                 >
                   <Image
-                    src={getImageUrl(idx, totalImages)}
+                    src={getThumbUrl(idx, totalImages)}
                     alt={`gallery-${idx}`}
                     width={400}
                     height={400}
