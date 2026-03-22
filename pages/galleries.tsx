@@ -3,41 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, X } from "lucide-react";
 
-const BLOB_BASE_URL = process.env.NEXT_PUBLIC_BLOB_BASE_URL || "";
-
-const getRelativePath = (urlStr: string) => {
-  try {
-    const url = new URL(urlStr);
-    return url.pathname;
-  } catch {
-    return urlStr;
-  }
-};
-
-const getImageUrl = (index: number, total: number) => {
-  const fileNumber = total - index;
-  const basePath = getRelativePath(BLOB_BASE_URL);
-  return `${basePath}${fileNumber}.jpeg`;
-};
-
-const getThumbUrl = (index: number, total: number) => {
-  const fileNumber = total - index;
-  const lastIndex = BLOB_BASE_URL.lastIndexOf("/twitter_images/");
-  if (lastIndex === -1) {
-    const basePath = getRelativePath(BLOB_BASE_URL);
-    return `${basePath}${fileNumber}.jpeg`;
-  }
-
-  const thumbBaseUrl = 
-    BLOB_BASE_URL.substring(0, lastIndex) + 
-    "/twitter_images_thumb/" + 
-    BLOB_BASE_URL.substring(lastIndex + "/twitter_images/".length);
-    
-  return `${getRelativePath(thumbBaseUrl)}${fileNumber}.jpeg`;
-};
-
 export default function Galleries() {
-  const [totalImages, setTotalImages] = useState<number | null>(null);
+  const [images, setImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [previewIdx, setPreviewIdx] = useState<number | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -45,39 +12,13 @@ export default function Galleries() {
   const [imgError, setImgError] = useState(false);
 
   useEffect(() => {
-    const fetchImageCount = async () => {
-      if (!BLOB_BASE_URL) {
-        setLoading(false);
-        return;
-      }
-
+    const fetchImages = async () => {
       try {
-        const urlObj = new URL(BLOB_BASE_URL);
-        const pathParts = urlObj.pathname.split("/").filter(Boolean);
-        if (pathParts.length < 1) throw new Error("Invalid Blob URL format");
-
-        const containerName = pathParts[0];
-        const prefix = pathParts.slice(1).join("/") + "/";
-        const listUrl = `${urlObj.origin}/${containerName}?restype=container&comp=list&prefix=${prefix}`;
-
-        const response = await fetch(listUrl);
-        if (!response.ok) throw new Error("Failed to fetch blob list");
-
-        const text = await response.text();
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(text, "text/xml");
+        const response = await fetch('/api/getImageList');
+        if (!response.ok) throw new Error("Failed to fetch image list");
         
-        const blobs = xmlDoc.getElementsByTagName("Blob");
-        let jpegCount = 0;
-
-        for (let i = 0; i < blobs.length; i++) {
-          const name = blobs[i].getElementsByTagName("Name")[0]?.textContent || "";
-          if (name.toLowerCase().endsWith(".jpeg") || name.toLowerCase().endsWith(".jpg")) {
-            jpegCount++;
-          }
-        }
-
-        setTotalImages(jpegCount);
+        const data = await response.json();
+        setImages(data.images || []);
       } catch (error) {
         console.error("Error fetching images:", error);
       } finally {
@@ -85,8 +26,16 @@ export default function Galleries() {
       }
     };
 
-    fetchImageCount();
+    fetchImages();
   }, []);
+
+  const getImageUrl = (filename: string) => {
+    return `/api/getImage?file=${encodeURIComponent(filename)}&type=original`;
+  };
+
+  const getThumbUrl = (filename: string) => {
+    return `/api/getImage?file=${encodeURIComponent(filename)}&type=thumb`;
+  };
 
   const openPreview = (idx: number) => {
     setPreviewIdx(idx);
@@ -102,21 +51,21 @@ export default function Galleries() {
 
   const prevImage = useCallback((e?: React.MouseEvent) => {
     e?.stopPropagation();
-    if (previewIdx !== null && totalImages !== null) {
+    if (previewIdx !== null && images.length > 0) {
       setImgLoading(true);
       setImgError(false);
-      setPreviewIdx((previewIdx + totalImages - 1) % totalImages);
+      setPreviewIdx((previewIdx + images.length - 1) % images.length);
     }
-  }, [previewIdx, totalImages]);
+  }, [previewIdx, images]);
 
   const nextImage = useCallback((e?: React.MouseEvent) => {
     e?.stopPropagation();
-    if (previewIdx !== null && totalImages !== null) {
+    if (previewIdx !== null && images.length > 0) {
       setImgLoading(true);
       setImgError(false);
-      setPreviewIdx((previewIdx + 1) % totalImages);
+      setPreviewIdx((previewIdx + 1) % images.length);
     }
-  }, [previewIdx, totalImages]);
+  }, [previewIdx, images]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -159,13 +108,13 @@ export default function Galleries() {
              <div className="flex justify-center items-center h-64">
                <div className="loader" />
              </div>
-          ) : !totalImages || totalImages === 0 ? (
+          ) : images.length === 0 ? (
             <p className="text-center text-gray-500 dark:text-gray-400">画像がありません</p>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-              {Array.from({ length: totalImages }).map((_, idx) => (
+              {images.map((filename, idx) => (
                 <button
-                  key={idx}
+                  key={filename}
                   className={`aspect-square bg-gray-100 dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm transition-all duration-200 ease-in-out focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 hover:shadow-md hover:border-pink-400 hover:bg-pink-50 dark:hover:bg-pink-900/30 border border-gray-200 dark:border-gray-700 group w-full flex items-center justify-center`}
                   style={{ outline: "none" }}
                   onClick={() => openPreview(idx)}
@@ -173,7 +122,7 @@ export default function Galleries() {
                   aria-label={`画像${idx + 1}を拡大表示`}
                 >
                   <Image
-                    src={getThumbUrl(idx, totalImages)}
+                    src={getThumbUrl(filename)}
                     alt={`gallery-${idx}`}
                     width={400}
                     height={400}
@@ -186,7 +135,7 @@ export default function Galleries() {
           )}
         </div>
       </main>
-      {previewIdx !== null && totalImages !== null && (
+      {previewIdx !== null && images[previewIdx] && (
         <div
           className={`fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm transition-opacity duration-300 ${
             modalVisible ? "opacity-100" : "opacity-0 pointer-events-none"
@@ -223,7 +172,7 @@ export default function Galleries() {
               </div>
             ) : (
               <Image
-                src={getImageUrl(previewIdx, totalImages)}
+                src={getImageUrl(images[previewIdx])}
                 alt={`gallery-preview-${previewIdx}`}
                 width={1920}
                 height={1080}

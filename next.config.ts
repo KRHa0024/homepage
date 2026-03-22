@@ -13,21 +13,29 @@ const nextConfig: NextConfig = {
     ],
   },
   async rewrites() {
-    let destination = '';
+    const rewrites = [];
+
+    if (process.env.NODE_ENV === 'development') {
+      rewrites.push({
+        source: '/api/:path*',
+        destination: 'http://localhost:7071/api/:path*',
+      });
+    }
+
     if (process.env.NEXT_PUBLIC_BLOB_BASE_URL) {
       try {
         const url = new URL(process.env.NEXT_PUBLIC_BLOB_BASE_URL);
-        destination = `${url.origin}/media/:path*`;
+        const destination = `${url.origin}/media/:path*`;
+        rewrites.push({
+          source: '/media/:path*',
+          destination: destination,
+        });
       } catch (e) {
         console.error("Invalid NEXT_PUBLIC_BLOB_BASE_URL", e);
       }
     }
-    return [
-      {
-        source: '/media/:path*',
-        destination: destination,
-      },
-    ];
+
+    return rewrites;
   },
 };
 

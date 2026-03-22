@@ -1,0 +1,9 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "BLOB_CONNECTION_STRING": "Your_Actual_Connection_String_Here",
+    "BLOB_CONTAINER_NAME": "media"
+  }
+}
