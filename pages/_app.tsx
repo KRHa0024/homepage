@@ -28,7 +28,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="shortcut icon" href="/favicons/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png" />
         <meta name="apple-mobile-web-app-title" content="MyWebSite" />
-        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="manifest" href="/favicons/site.webmanifest" />
       </Head>
       <style jsx global>{`
         .m-plus-rounded {

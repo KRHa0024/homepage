@@ -123,11 +123,9 @@ const works: WorkItem[] = [
 export default function Home() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col">
-      {/* プロフィールセクション */}
       <section className="py-8 sm:py-12 lg:py-16">
         <div className="max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-6">
-            {/* プロフィール画像 */}
             <div className="flex justify-center">
               <div className="size-48 rounded-full flex items-center justify-center shadow-lg overflow-hidden">
                 <Image
@@ -142,22 +140,18 @@ export default function Home() {
             </div>
 
             <div>
-              {/* 名前 */}
               <h1 className="text-3xl sm:text-4xl font-bold text-gray-700 dark:text-gray-200 leading-tight m-plus-rounded">
                 くろ～は
               </h1>
-              {/* 読み方 */}
               <p className="text-base sm:text-lg text-gray-700 dark:text-gray-200 leading-relaxed max-w-2xl mx-auto">
                 kuroha
               </p>
             </div>
 
-            {/* ひとこと */}
             <p className="text-base sm:text-lg text-gray-500 dark:text-gray-400 leading-relaxed max-w-2xl mx-auto">
               ぶいちゃで暮らしてます<br />インフラエンジニアもやってます
             </p>
 
-            {/* ギャラリーボタン */}
             <div className="pt-4">
               <Link
                 href="/galleries"
@@ -171,10 +165,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* リンク集セクション */}
       <main className="flex-1 pb-16">
         <div className="max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-          {/* セクションタイトル */}
           <div className="text-center">
             <h2 className="text-2xl sm:text-3xl font-semibold text-gray-700 dark:text-gray-200 leading-tight m-plus-rounded">
               Links
@@ -184,7 +176,6 @@ export default function Home() {
             </p>
           </div>
 
-          {/* リンクカード */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             {links.map((link, index) => (
               <LinkCard key={index} {...link} />
@@ -193,10 +184,8 @@ export default function Home() {
         </div>
       </main>
 
-      {/* Workセクション */}
       <main className="flex-1 pb-16">
         <div className="max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-          {/* セクションタイトル */}
           <div className="text-center">
             <h2 className="text-2xl sm:text-3xl font-semibold text-gray-700 dark:text-gray-200 leading-tight m-plus-rounded">
               Works
@@ -206,7 +195,6 @@ export default function Home() {
             </p>
           </div>
           
-          {/* Workカード */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
             {works.map((work, index) => (
               <WorkCard key={index} {...work} />
@@ -215,7 +203,6 @@ export default function Home() {
         </div>
       </main>
 
-      {/* フッター */}
       <footer className="py-8 border-t border-gray-200 dark:border-gray-700 mt-auto">
         <div className="max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
@@ -259,14 +246,12 @@ function LinkCard({ title, url, icon }: LinkItem) {
       aria-label={`${title}に移動`}
     >
       <div className="flex space-x-4 items-center">
-        {/* アイコン */}
         <div className="flex-shrink-0 p-3 bg-gray-50 dark:bg-gray-700 rounded-full transition-colors duration-150 ease-in-out group-hover:bg-white dark:group-hover:bg-gray-600">
           <div className="text-pink-700 transition-transform duration-150 ease-in-out group-hover:scale-105">
             {React.cloneElement(icon as React.ReactElement)}
           </div>
         </div>
 
-        {/* コンテンツ */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold text-gray-600 dark:text-gray-300 leading-snug">
@@ -310,7 +295,6 @@ function WorkCard({ title, image, url }: WorkItem) {
       role={url ? "button" : undefined}
       aria-label={url ? `${title}を開く` : undefined}
     >
-      {/* 画像 */}
       <div className="aspect-video bg-gray-100 dark:bg-gray-700 overflow-hidden rounded-2xl mt-4 ml-4 mr-4">
         <Image
           src={image}
@@ -321,7 +305,6 @@ function WorkCard({ title, image, url }: WorkItem) {
         />
       </div>
 
-      {/* タイトル */}
       <div className="flex p-4 justify-center">
         <h2 className="text-base font-medium text-gray-700 dark:text-gray-200 leading-snug line-clamp-2">
           {title}

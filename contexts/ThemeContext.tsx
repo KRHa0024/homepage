@@ -14,7 +14,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<ThemePreference>('system');
   const [mounted, setMounted] = useState(false);
 
-  // 初回マウント時にlocalStorageから読み込み
   useEffect(() => {
     const stored = localStorage.getItem('theme') as ThemePreference | null;
     if (stored === 'dark' || stored === 'light') {
@@ -25,7 +24,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     setMounted(true);
   }, []);
 
-  // テーマ変更時にDOMとlocalStorageを更新
   useEffect(() => {
     const applyTheme = () => {
       const root = document.documentElement;
@@ -42,7 +40,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       root.classList.remove('light', 'dark');
       root.classList.add(resolved);
 
-      // 背景色も同期
       const bg = resolved === 'dark' ? '#111827' : '#ffffff';
       root.style.backgroundColor = bg;
       document.body.style.backgroundColor = bg;

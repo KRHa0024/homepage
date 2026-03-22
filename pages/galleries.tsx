@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, X } from "lucide-react";
 
-// Azure Blob Storage Base URL
 const BLOB_BASE_URL = process.env.NEXT_PUBLIC_BLOB_BASE_URL || "";
 
-// Helper to get path relative to domain
 const getRelativePath = (urlStr: string) => {
   try {
     const url = new URL(urlStr);
@@ -16,21 +14,14 @@ const getRelativePath = (urlStr: string) => {
   }
 };
 
-// 画像URL生成ロジック
-// 末尾(index = total - 1)が 1.jpeg になるように計算
-// fileNumber = total - index
 const getImageUrl = (index: number, total: number) => {
   const fileNumber = total - index;
   const basePath = getRelativePath(BLOB_BASE_URL);
   return `${basePath}${fileNumber}.jpeg`;
 };
 
-// サムネイルURL生成ロジック
-// twitter_images を twitter_images_thumb に置換
 const getThumbUrl = (index: number, total: number) => {
   const fileNumber = total - index;
-  // 文字列全体から "/twitter_images/" を探し、最後に現れるものを "/twitter_images_thumb/" に置換
-  // ユーザーの例: .../media/twitter_images/twitter_images/ -> .../media/twitter_images/twitter_images_thumb/
   const lastIndex = BLOB_BASE_URL.lastIndexOf("/twitter_images/");
   if (lastIndex === -1) {
     const basePath = getRelativePath(BLOB_BASE_URL);
@@ -53,7 +44,6 @@ export default function Galleries() {
   const [imgLoading, setImgLoading] = useState(false);
   const [imgError, setImgError] = useState(false);
 
-  // Blob Storageから画像リストを取得して総数をカウント
   useEffect(() => {
     const fetchImageCount = async () => {
       if (!BLOB_BASE_URL) {
@@ -64,19 +54,10 @@ export default function Galleries() {
       try {
         const urlObj = new URL(BLOB_BASE_URL);
         const pathParts = urlObj.pathname.split("/").filter(Boolean);
-        
-        // パスの形式: /<container>/<prefix>/...
-        // 例: /media/twitter_images/twitter_images/
-        // container: media
-        // prefix: twitter_images/twitter_images/
         if (pathParts.length < 1) throw new Error("Invalid Blob URL format");
 
         const containerName = pathParts[0];
-        // プレフィックスの末尾に / を付けることで、ディレクトリを正確に絞り込む（前方一致による他フォルダの混入を防ぐ）
         const prefix = pathParts.slice(1).join("/") + "/";
-        
-        // List Blob API URLの構築
-        // https://<account>.blob.core.windows.net/<container>?restype=container&comp=list&prefix=<prefix>
         const listUrl = `${urlObj.origin}/${containerName}?restype=container&comp=list&prefix=${prefix}`;
 
         const response = await fetch(listUrl);
@@ -107,38 +88,36 @@ export default function Galleries() {
     fetchImageCount();
   }, []);
 
-  // プレビューを開く
   const openPreview = (idx: number) => {
     setPreviewIdx(idx);
     setModalVisible(true);
     setImgLoading(true);
     setImgError(false);
   };
-  // プレビューを閉じる
-  const closePreview = () => {
+
+  const closePreview = useCallback(() => {
     setModalVisible(false);
-    setTimeout(() => setPreviewIdx(null), 250); // アニメーション後に非表示
-  };
-  // 前の画像
-  const prevImage = (e?: React.MouseEvent) => {
+    setTimeout(() => setPreviewIdx(null), 250);
+  }, []);
+
+  const prevImage = useCallback((e?: React.MouseEvent) => {
     e?.stopPropagation();
     if (previewIdx !== null && totalImages !== null) {
       setImgLoading(true);
       setImgError(false);
       setPreviewIdx((previewIdx + totalImages - 1) % totalImages);
     }
-  };
-  // 次の画像
-  const nextImage = (e?: React.MouseEvent) => {
+  }, [previewIdx, totalImages]);
+
+  const nextImage = useCallback((e?: React.MouseEvent) => {
     e?.stopPropagation();
     if (previewIdx !== null && totalImages !== null) {
       setImgLoading(true);
       setImgError(false);
       setPreviewIdx((previewIdx + 1) % totalImages);
     }
-  };
+  }, [previewIdx, totalImages]);
 
-  // キーボードナビゲーション
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (previewIdx === null) return;
@@ -158,7 +137,7 @@ export default function Galleries() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [previewIdx, totalImages]); // totalImagesも依存配列に追加
+  }, [previewIdx, closePreview, prevImage, nextImage]);
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col">
