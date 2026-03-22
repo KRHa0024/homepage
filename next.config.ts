@@ -13,10 +13,19 @@ const nextConfig: NextConfig = {
     ],
   },
   async rewrites() {
+    let destination = '';
+    if (process.env.NEXT_PUBLIC_BLOB_BASE_URL) {
+      try {
+        const url = new URL(process.env.NEXT_PUBLIC_BLOB_BASE_URL);
+        destination = `${url.origin}/media/:path*`;
+      } catch (e) {
+        console.error("Invalid NEXT_PUBLIC_BLOB_BASE_URL", e);
+      }
+    }
     return [
       {
         source: '/media/:path*',
-        destination: 'https://stkurohanihohetoprod.blob.core.windows.net/media/:path*',
+        destination: destination,
       },
     ];
   },
