@@ -12,6 +12,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: '/media/:path*',
+        destination: 'https://stkurohanihohetoprod.blob.core.windows.net/media/:path*',
+      },
+    ];
+  },
 };
 
 // 環境変数からホスト名を抽出して動的に追加

@@ -6,12 +6,23 @@ import { ArrowLeft, ArrowRight, X } from "lucide-react";
 // Azure Blob Storage Base URL
 const BLOB_BASE_URL = process.env.NEXT_PUBLIC_BLOB_BASE_URL || "";
 
+// Helper to get path relative to domain
+const getRelativePath = (urlStr: string) => {
+  try {
+    const url = new URL(urlStr);
+    return url.pathname;
+  } catch {
+    return urlStr;
+  }
+};
+
 // 画像URL生成ロジック
 // 末尾(index = total - 1)が 1.jpeg になるように計算
 // fileNumber = total - index
 const getImageUrl = (index: number, total: number) => {
   const fileNumber = total - index;
-  return `${BLOB_BASE_URL}${fileNumber}.jpeg`;
+  const basePath = getRelativePath(BLOB_BASE_URL);
+  return `${basePath}${fileNumber}.jpeg`;
 };
 
 // サムネイルURL生成ロジック
@@ -21,14 +32,17 @@ const getThumbUrl = (index: number, total: number) => {
   // 文字列全体から "/twitter_images/" を探し、最後に現れるものを "/twitter_images_thumb/" に置換
   // ユーザーの例: .../media/twitter_images/twitter_images/ -> .../media/twitter_images/twitter_images_thumb/
   const lastIndex = BLOB_BASE_URL.lastIndexOf("/twitter_images/");
-  if (lastIndex === -1) return `${BLOB_BASE_URL}${fileNumber}.jpeg`;
+  if (lastIndex === -1) {
+    const basePath = getRelativePath(BLOB_BASE_URL);
+    return `${basePath}${fileNumber}.jpeg`;
+  }
 
   const thumbBaseUrl = 
     BLOB_BASE_URL.substring(0, lastIndex) + 
     "/twitter_images_thumb/" + 
     BLOB_BASE_URL.substring(lastIndex + "/twitter_images/".length);
     
-  return `${thumbBaseUrl}${fileNumber}.jpeg`;
+  return `${getRelativePath(thumbBaseUrl)}${fileNumber}.jpeg`;
 };
 
 export default function Galleries() {
@@ -185,6 +199,7 @@ export default function Galleries() {
                     width={400}
                     height={400}
                     className="w-full h-full object-cover transition-transform duration-200 ease-in-out group-hover:scale-105"
+                    unoptimized={true}
                   />
                 </button>
               ))}
@@ -245,6 +260,7 @@ export default function Galleries() {
                   setImgLoading(false);
                   setImgError(true);
                 }}
+                unoptimized={true}
               />
             )}
           </div>
