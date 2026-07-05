@@ -24,6 +24,11 @@ interface WorkItem {
   url?: string;
 }
 
+interface SkillCategory {
+  label: string;
+  skills: string[];
+}
+
 const links: LinkItem[] = [
   {
     title: "Twitter",
@@ -55,6 +60,12 @@ const links: LinkItem[] = [
     url: "https://github.com/KRHa0024",
     icon: <GithubIcon className="w-6 h-6" />,
   },
+];
+
+const skillCategories: SkillCategory[] = [
+  { label: "Web", skills: ["Next.js", "Nuxt.js"] },
+  { label: "Cloud", skills: ["Azure", "AWS"] },
+  { label: "Media", skills: ["Unity", "Blender", "Substance3D", "ClipStudio"] },
 ];
 
 const works: WorkItem[] = [
@@ -149,8 +160,31 @@ export default function Home() {
             </div>
 
             <p className="text-base sm:text-lg text-gray-500 dark:text-gray-400 leading-relaxed max-w-2xl mx-auto">
-              ぶいちゃで暮らしてます<br />インフラエンジニアもやってます
+              ぶいちゃで暮らしてます<br />
             </p>
+
+            <div className="pt-2 space-y-1.5 max-w-lg mx-auto">
+              {skillCategories.map((category) => (
+                <div
+                  key={category.label}
+                  className="flex flex-wrap items-baseline justify-center gap-x-2 gap-y-1.5"
+                >
+                  <span className="text-[11px] font-semibold tracking-wide text-gray-400 dark:text-gray-500 uppercase">
+                    {category.label}
+                  </span>
+                  <div className="flex flex-wrap justify-center gap-1.5">
+                    {category.skills.map((skill) => (
+                      <span
+                        key={skill}
+                        className="px-2.5 py-0.5 rounded-full bg-gray-50 dark:bg-gray-800/60 text-gray-500 dark:text-gray-400 text-xs border border-gray-200 dark:border-gray-700"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
 
             <div className="pt-4">
               <Link
