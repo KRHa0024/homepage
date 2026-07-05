@@ -21,6 +21,12 @@ export default async function handler(
     return res.status(400).send("File name is required");
   }
 
+  // パストラバーサル対策: 単一のファイル名(拡張子 jpg/jpeg)のみを許可し、
+  // パスセパレータや相対パス表記を含む値は拒否する
+  if (!/^[a-zA-Z0-9_-]+\.jpe?g$/i.test(file)) {
+    return res.status(400).send("Invalid file name");
+  }
+
   if (!connectionString) {
     console.error("BLOB_CONNECTION_STRING is not set");
     return res.status(500).send("Server Configuration Error");
